@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { withWebChat } from '@ibm-watson/assistant-web-chat-react';
+import CustomResponsePortalsContainer from './CustomResponsePortalsContainer';
 
-function App() {
+function App({ createWebChatInstance }) {
+  const [instance, setInstance] = useState(null);
+  const [customResponseEvents, setCustomResponseEvents] = useState([]);
+
+  useEffect(() => {
+    const watsonAssistantChatOptions = {
+      carbonTheme: 'g100',
+      integrationID: '5db4da32-6497-4e9c-b4bb-e451b9bd09d3',
+      region: 'us-south',
+      serviceInstanceID: '51f6030b-360a-4e10-a489-9aa28d3c7968',
+      onLoad: wacInstance => {
+        setInstance(wacInstance);
+        wacInstance.updateHomeScreenConfig({
+          is_on: true,
+          greeting: 'Welcome to TDC Assistant.',
+          starters: {
+            is_on: true,
+          },
+        });
+        wacInstance.render(); 
+      },
+    }
+    createWebChatInstance(watsonAssistantChatOptions);
+  }, []);
+  
+  function customResponseHandler(event) {
+    setCustomResponseEvents(oldArray => [...oldArray, event]);
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {instance && <CustomResponsePortalsContainer instance={instance} />}
     </div>
   );
-}
+  }
 
-export default App;
+export default withWebChat()(App);
