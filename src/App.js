@@ -8,7 +8,7 @@ function App({ createWebChatInstance }) {
 
   useEffect(() => {
     const watsonAssistantChatOptions = {
-      carbonTheme: 'g100',
+      // carbonTheme: 'g100',
       integrationID: '5db4da32-6497-4e9c-b4bb-e451b9bd09d3',
       region: 'us-south',
       serviceInstanceID: '51f6030b-360a-4e10-a489-9aa28d3c7968',
@@ -17,9 +17,9 @@ function App({ createWebChatInstance }) {
         wacInstance.updateHomeScreenConfig({
           is_on: true,
           greeting: 'Welcome to TDC Assistant.',
-          starters: {
-            is_on: true,
-          },
+          // starters: {
+          //   is_on: false,
+          // },
         });
         wacInstance.render(); 
       },
