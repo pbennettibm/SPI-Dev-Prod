@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { withWebChat } from '@ibm-watson/assistant-web-chat-react';
 import CustomResponsePortalsContainer from './CustomResponsePortalsContainer';
+import CustomResponseComponent from './CustomResponseComponent';
 
 function App({ createWebChatInstance }) {
   const [instance, setInstance] = useState(null);
@@ -18,13 +19,7 @@ function App({ createWebChatInstance }) {
         if (loaded) {
           singleInstance = wacInstance
           setInstance(wacInstance);
-          wacInstance.updateHomeScreenConfig({
-            is_on: true,
-            greeting: 'Welcome to TDC Assistant.',
-            // starters: {
-            //   is_on: false,
-            // },
-          });
+          wacInstance.on({ type: 'customResponse', handler: customResponseHandler });
           wacInstance.render();
       } 
       },
@@ -46,9 +41,25 @@ function App({ createWebChatInstance }) {
 
   return (
     <div className="App">
-      {instance && <CustomResponsePortalsContainer instance={instance} />}
+      {/* {instance && <CustomResponsePortalsContainer instance={instance} />} */}
+      {customResponseEvents.map(function mapEvent(event, index) {
+        if (instance) {
+        return (
+            <ResponsePicker instance={instance} key={index} hostElement={event.data.element} event={event} message={event.data.message} />
+        );
+        }
+      })}
     </div>
   );
+  }
+  function ResponsePicker({ message, hostElement, instance, event }) {
+    switch (message.user_defined.template_name) {
+      case 'maximo-call':
+        console.log(message)
+        return <CustomResponseComponent instance={instance} hostElement={hostElement} event={event} message={message} />;
+      default:
+        return null;
+    }
   }
 
 export default withWebChat()(App);
