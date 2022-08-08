@@ -7,24 +7,36 @@ function App({ createWebChatInstance }) {
   const [customResponseEvents, setCustomResponseEvents] = useState([]);
 
   useEffect(() => {
+    let loaded = true;
+    let singleInstance;
     const watsonAssistantChatOptions = {
       // carbonTheme: 'g100',
       integrationID: '5db4da32-6497-4e9c-b4bb-e451b9bd09d3',
       region: 'us-south',
       serviceInstanceID: '51f6030b-360a-4e10-a489-9aa28d3c7968',
       onLoad: wacInstance => {
-        setInstance(wacInstance);
-        wacInstance.updateHomeScreenConfig({
-          is_on: true,
-          greeting: 'Welcome to TDC Assistant.',
-          // starters: {
-          //   is_on: false,
-          // },
-        });
-        wacInstance.render(); 
+        if (loaded) {
+          singleInstance = wacInstance
+          setInstance(wacInstance);
+          wacInstance.updateHomeScreenConfig({
+            is_on: true,
+            greeting: 'Welcome to TDC Assistant.',
+            // starters: {
+            //   is_on: false,
+            // },
+          });
+          wacInstance.render();
+      } 
       },
     }
     createWebChatInstance(watsonAssistantChatOptions);
+    return function cleanup() {
+      loaded = false;
+      if (singleInstance) {
+        singleInstance.off({ type: 'customResponse', handler: customResponseHandler });
+      }
+    };
+    // eslint-disable-next-line
   }, []);
   
   function customResponseHandler(event) {
