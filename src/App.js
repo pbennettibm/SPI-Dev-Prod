@@ -54,7 +54,7 @@ function App({ createWebChatInstance }) {
   }
   function ResponsePicker({ message, hostElement, instance, event }) {
     switch (message.user_defined.template_name) {
-      case 'maximo-call':
+      case 'maximo':
         console.log(message)
         return <CustomResponseComponent instance={instance} hostElement={hostElement} event={event} message={message} />;
       default:
