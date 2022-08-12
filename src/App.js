@@ -21,7 +21,15 @@ function App({ createWebChatInstance }) {
           setInstance(wacInstance);
           wacInstance.on({ type: 'customResponse', handler: customResponseHandler });
           wacInstance.render();
-      } 
+          /*function handler(event) {
+            return new Promise((resolve, reject) => {
+              instance.destroySession();
+              resolve();
+            })
+          }
+          instance.on({ type: "window:close", handler: handler });
+          */
+        }
       },
     }
     createWebChatInstance(watsonAssistantChatOptions);
@@ -33,7 +41,7 @@ function App({ createWebChatInstance }) {
     };
     // eslint-disable-next-line
   }, []);
-  
+
   function customResponseHandler(event) {
     setCustomResponseEvents(oldArray => [...oldArray, event]);
   }
@@ -44,22 +52,21 @@ function App({ createWebChatInstance }) {
       {/* {instance && <CustomResponsePortalsContainer instance={instance} />} */}
       {customResponseEvents.map(function mapEvent(event, index) {
         if (instance) {
-        return (
+          return (
             <ResponsePicker instance={instance} key={index} hostElement={event.data.element} event={event} message={event.data.message} />
-        );
+          );
         }
       })}
     </div>
   );
+}
+function ResponsePicker({ message, hostElement, instance, event }) {
+  switch (message.user_defined.template_name) {
+    case 'maximo':
+      return <CustomResponseComponent instance={instance} hostElement={hostElement} event={event} message={message} />;
+    default:
+      return null;
   }
-  function ResponsePicker({ message, hostElement, instance, event }) {
-    switch (message.user_defined.template_name) {
-      case 'maximo':
-        console.log(message)
-        return <CustomResponseComponent instance={instance} hostElement={hostElement} event={event} message={message} />;
-      default:
-        return null;
-    }
-  }
+}
 
 export default withWebChat()(App);
