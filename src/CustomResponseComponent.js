@@ -1,29 +1,54 @@
-import React, { useCallback, useState } from 'react';
-import { DatePicker, DatePickerInput} from 'carbon-components-react';
+import React, { useEffect, useState, useRef } from 'react';
+import ReactDOM from 'react-dom';
+import { Accordion, AccordionItem, Link } from 'carbon-components-react';
 import PropTypes from 'prop-types';
 
-/**
- * Your custom response component can also make use of the message object if you have set "user_defined" variables.  
- */
-function CustomResponseComponent({ message }) {
-  const [datePickerElement, setDatePickerElement] = useState(null);
+function CustomResponseComponent({ message, hostElement }) {
+  const [WorkOrderElements, setWorkOrderElements] = useState([]);
+  const [WorkOrderLength, setWorkOrderLength] = useState(0);
+  const [WorkOrderPosition, setWorkOrderPosition] = useState(2);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      setWorkOrderElements(message.user_defined.value);
+      setWorkOrderLength(message.user_defined.value.length);
+    }
+  }, [WorkOrderElements, message.user_defined.value]);
 
   return (
-    <>
-      {/* {datePickerElement && (
-        <DatePicker datePickerType="range" appendTo={datePickerElement}>
-          <DatePickerInput id="date-picker-input-id-start" placeholder="mm/dd/yyyy" labelText="Start date" />
-          <DatePickerInput id="date-picker-input-id-finish" placeholder="mm/dd/yyyy" labelText="End date" />
-        </DatePicker>
-      )} */}
-      {/* This is where the date picker popup will appear. */}
-      <div ref={setDatePickerElement} style={{ position: 'relative' }} />
-    </>
-  )
+    <CustomResponseComponentPortal hostElement={hostElement}>
+      <Accordion align='start'>
+        {WorkOrderElements.map((item, index) => {
+          if (index < WorkOrderPosition) {
+            return (
+              <AccordionItem title={item.wonum} key={item + index}>
+                <p>Ticket Status: {item.status}</p>
+              </AccordionItem>
+            );
+          } else {
+            return null;
+          }
+        })}
+      </Accordion>
+      <br />
+      {WorkOrderLength >= WorkOrderPosition && (
+        <Link onClick={() => setWorkOrderPosition(WorkOrderPosition + 2)}>
+          click for more results
+        </Link>
+      )}
+    </CustomResponseComponentPortal>
+  );
 }
+
+const CustomResponseComponentPortal = ({ hostElement, children }) => {
+  return ReactDOM.createPortal(children, hostElement);
+};
 
 CustomResponseComponent.propTypes = {
   message: PropTypes.object,
+  hostElement: PropTypes.object,
 };
 
 export default CustomResponseComponent;
