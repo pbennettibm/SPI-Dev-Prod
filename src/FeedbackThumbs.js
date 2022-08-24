@@ -18,15 +18,15 @@ const FeedbackThumbs = ({ instance }) => {
   return (
     <>
       {Option !== 'Yes' ? (
-        <ThumbsUp32 onClick={() => buttonClick('Positive')} />
+        <ThumbsUp32 onClick={() => buttonClick('Satisfied')} />
       ) : (
-        <ThumbsUpFilled32 onClick={() => buttonClick('Positive')} />
+        <ThumbsUpFilled32 onClick={() => buttonClick('Satisfied')} />
       )}
       &nbsp;
       {Option !== 'No' ? (
-        <ThumbsDown32 onClick={() => buttonClick('Negative')} />
+        <ThumbsDown32 onClick={() => buttonClick('Unsatisfied')} />
       ) : (
-        <ThumbsDownFilled32 onClick={() => buttonClick('Negative')} />
+        <ThumbsDownFilled32 onClick={() => buttonClick('Unsatisfied')} />
       )}
     </>
   );
