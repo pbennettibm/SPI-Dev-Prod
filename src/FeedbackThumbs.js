@@ -9,21 +9,25 @@ import PropTypes from 'prop-types';
 
 const FeedbackThumbs = ({ instance }) => {
   const [Option, setOption] = useState(null);
+  const [FirstClick, setFirstClick] = useState(true);
 
   const buttonClick = (boolText) => {
-    setOption(boolText);
-    instance.send({ input: { text: boolText } });
+    if (FirstClick) {
+      setOption(boolText);
+      setFirstClick(false);
+      instance.send({ input: { text: boolText } });
+    }
   };
 
   return (
     <>
-      {Option !== 'Yes' ? (
+      {Option !== 'Satisfied' ? (
         <ThumbsUp32 onClick={() => buttonClick('Satisfied')} />
       ) : (
         <ThumbsUpFilled32 onClick={() => buttonClick('Satisfied')} />
       )}
       &nbsp;
-      {Option !== 'No' ? (
+      {Option !== 'Unsatisfied' ? (
         <ThumbsDown32 onClick={() => buttonClick('Unsatisfied')} />
       ) : (
         <ThumbsDownFilled32 onClick={() => buttonClick('Unsatisfied')} />
