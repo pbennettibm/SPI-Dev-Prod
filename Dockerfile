@@ -6,7 +6,7 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 8443
 
 ## Uncomment the below line to update image security content if any
 # USER root

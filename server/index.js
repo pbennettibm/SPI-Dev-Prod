@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const path = require('path');
 const app = express();
 
-const port = 8080;
+const port = 8443;
 
 app.use(express.static(path.join(__dirname, '../build')));
 app.use(morgan('combined'));
