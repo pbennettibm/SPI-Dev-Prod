@@ -5,7 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: white;
+  background-image: url('../public/toolset-background.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 code {
