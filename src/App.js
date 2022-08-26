@@ -37,9 +37,9 @@ const App = ({ createWebChatInstance }) => {
         <div className='bottom-container'>
           <div className='intro-text'>
             I'm an assistant for the Home Depot's Technology Deployment Center.
-            I'm here to chat with and ask questions about your orders with the
-            TDC. I can answer questions and send emails to support services to
-            aid an any issues that you may be facing.
+            I'm here to chat with you and help you with your orders placed
+            through the TDC. I can answer questions and send emails to support
+            services to aid an any issues that you may be facing.
           </div>
           <div className='intro-text-bold'>
             Click or tap on the icon in the corner to get started!
