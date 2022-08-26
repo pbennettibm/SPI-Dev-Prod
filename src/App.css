@@ -32,7 +32,7 @@
   display: flex;
   flex-direction: row;
   background-color: #F96302;
-  padding: 10px 20px;
+  padding: 5px 20px;
   color: white;
   align-items: center;
 }
@@ -60,10 +60,12 @@ h1 {
   flex-direction: row;
   align-self: flex-end;
   justify-self: flex-end;
+  padding-bottom: 10px;
 }
 
 .powered-by-text {
   align-self: center;
+  font-weight: 500;
 }
 
 @media (max-width: 700px) {
@@ -83,12 +85,12 @@ h1 {
   border-right: 2px solid #e0dad7;
   border-bottom: 2px solid #e0dad7;
   background-color: white;
-  padding: 20px;
+  padding: 25px 20px;
 }
 
 .intro-text {}
 
 .intro-text-bold {
   font-weight: bold;
-  padding-top: 20px;
+  padding-top: 25px;
 }
