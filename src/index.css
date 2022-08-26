@@ -26,3 +26,7 @@ code {
 #WACContainer.WACContainer button.WAC__button--primary svg {
   fill: white !important;
 }
+
+#WACContainer.WACContainer .WACLauncherComplex__Container .WACLauncherComplex__Text {
+  color: white !important;
+}
