@@ -30,3 +30,31 @@ code {
 #WACContainer.WACContainer .WACLauncherComplex__Container .WACLauncherComplex__Text {
   color: white !important;
 }
+
+#WACContainer.WACContainer button.WAC__button--base svg {
+  fill: white !important;
+}
+
+#WACContainer.WACContainer .WACHeader__CenterContainer .WACAutoFontSize--0 {
+  color: white !important;
+  font-size: large !important;
+  font-weight: bolder;
+}
+
+#WACContainer.WACContainer .WAC__sent {
+  color: white !important;
+}
+
+#WACContainer.WACContainer button.WAC__button--base.WAC__button--round.WAC__button--notSelected {
+  color: black !important;
+  background-color: white !important;
+}
+
+#WACContainer.WACContainer button.WAC__button--base.WAC__button--round.WAC__button--selected {
+  color: white !important;
+  background-color: #F96302 !important;
+}
+
+#WACContainer.WACContainer svg {
+  fill: #F96302
+}

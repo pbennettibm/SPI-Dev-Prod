@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Accordion, AccordionItem, Link } from 'carbon-components-react';
+import './MaximoAccordion.css';
 import PropTypes from 'prop-types';
 
 const MaximoAccordion = ({ message }) => {
