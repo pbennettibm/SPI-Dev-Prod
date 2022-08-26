@@ -25,6 +25,7 @@ const MaximoAccordion = ({ message }) => {
                   return (
                     <div key={info.itemnum + indexTwo}>
                       <a
+                        className='tracking'
                         href={info.trackingurl}
                         target='_blank'
                         rel='noreferrer'
