@@ -5,12 +5,24 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('../public/toolset-background.png');
-  background-size: 100%;
-  background-repeat: no-repeat;
+  background: url('./images/toolset-background.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+@media (max-width: 650px) {
+  body {
+    background: white;
+  }
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+#WACContainer.WACContainer button.WAC__button--primary svg {
+  fill: white !important;
 }
