@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { withWebChat } from '@ibm-watson/assistant-web-chat-react';
 import CustomResponsePortalsContainer from './CustomResponsePortalsContainer';
 import './App.css';
-// import { ReactComponent as HomeDepotLogo } from './images/home-depot.svg';
+// import { ReactComponent as CompanyLogo } from './images/company-logo.svg';
 import { ReactComponent as WatsonLogo } from './images/watson.svg';
 
 const App = ({ createWebChatInstance }) => {
@@ -27,7 +27,7 @@ const App = ({ createWebChatInstance }) => {
     <div className='app'>
       <div className='main-container'>
         <div className='top-container'>
-          {/* <HomeDepotLogo /> */}
+          {/* <CompanyLogo /> */}
           <h1>WELCOME!</h1>
           <div className='powered-by-container'>
             <div className='powered-by-text'>Powered by:&nbsp;</div>
