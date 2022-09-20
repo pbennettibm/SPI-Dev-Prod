@@ -3,10 +3,10 @@
   "type": "action",
   "valid": true,
   "status": "Available",
-  "created": "2022-08-01T20:38:29.551Z",
-  "updated": "2022-08-26T13:55:40.184Z",
+  "created": "2022-08-01T20:33:35.274Z",
+  "updated": "2022-09-20T20:04:43.680Z",
   "language": "en",
-  "skill_id": "9cafe606-3c9d-423d-a697-18abb37bec61",
+  "skill_id": "ce404a94-1700-40fa-9467-ae637fb680db",
   "workspace": {
     "actions": [
       {
@@ -39,10 +39,10 @@
                 {
                   "options": [
                     {
-                      "label": "Ariba POs",
+                      "label": "Purchase Orders",
                       "value": {
                         "input": {
-                          "text": "Ariba POs"
+                          "text": "Purchase Orders"
                         }
                       }
                     },
@@ -55,10 +55,10 @@
                       }
                     },
                     {
-                      "label": "ServiceNow Tickets",
+                      "label": "Tickets",
                       "value": {
                         "input": {
-                          "text": "ServiceNow Tickets"
+                          "text": "Tickets"
                         }
                       }
                     }
@@ -127,7 +127,7 @@
                   "variable": "step_782"
                 },
                 {
-                  "value": "Ariba POs",
+                  "value": "Purchase Orders",
                   "from_entity": "entity_43857"
                 }
               ]
@@ -177,7 +177,7 @@
                   "variable": "step_782"
                 },
                 {
-                  "value": "ServiceNow Tickets",
+                  "value": "Tickets",
                   "from_entity": "entity_43857"
                 }
               ]
@@ -352,19 +352,19 @@
                 "type": "integration_interaction",
                 "method": "GET",
                 "internal": {
-                  "catalog_item_id": "c5f572a4-dc7a-490f-88b8-609e2525c73c"
+                  "catalog_item_id": "d14601e7-858e-49fc-9f75-370a1069b7fe"
                 },
                 "request_mapping": {
                   "path": [
                     {
                       "value": {
-                        "skill_variable": "userid"
+                        "skill_variable": "username"
                       },
                       "parameter": "reportedby"
                     },
                     {
                       "value": {
-                        "skill_variable": "location"
+                        "skill_variable": "userid"
                       },
                       "parameter": "location"
                     }
@@ -386,7 +386,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "This is what I was able to find. Please select the ticket you are referring to:"
+                            "scalar": "This is what I was able to find. Please select the Ticket you are referring to:"
                           }
                         ]
                       }
@@ -461,10 +461,10 @@
                       }
                     },
                     {
-                      "label": "Ariba POs",
+                      "label": "Purchase Orders",
                       "value": {
                         "input": {
-                          "text": "Ariba POs"
+                          "text": "Purchase Orders"
                         }
                       }
                     },
@@ -549,7 +549,7 @@
                   "variable": "step_783"
                 },
                 {
-                  "value": "Ariba POs",
+                  "value": "Purchase Orders",
                   "from_entity": "entity_35524"
                 }
               ]
@@ -631,7 +631,7 @@
             }
           }
         ],
-        "title": "1.1 ServiceNow Tickets",
+        "title": "1.1 Tickets",
         "action": "action_23704",
         "boosts": [],
         "handlers": [],
@@ -755,7 +755,7 @@
             "data_type": "any"
           },
           {
-            "title": "This is what I was able to find. Please select the ticket you ar",
+            "title": "This is what I was able to find. Please select the Ticket you ar",
             "variable": "step_934",
             "data_type": "any"
           },
@@ -787,7 +787,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "Hi, I'll be your TDC Assistant today.\n\nCould you please tell me your first name, ID, location separated by commas?"
+                            "scalar": "Hi, I'll be your Watson Assistant today.\n\nCould you please tell me your username, and userid separated by a comma?"
                           }
                         ]
                       }
@@ -861,12 +861,6 @@
                     "expression": "${userinput}[1].trim()"
                   },
                   "skill_variable": "userid"
-                },
-                {
-                  "value": {
-                    "expression": "${userinput}[2].trim()"
-                  },
-                  "skill_variable": "location"
                 }
               ]
             },
@@ -876,7 +870,7 @@
             },
             "variable": "step_859",
             "condition": {
-              "expression": "${userinput}.length == 3"
+              "expression": "${userinput}.length == 2"
             },
             "next_step": "step_946"
           },
@@ -898,7 +892,7 @@
             },
             "variable": "step_946",
             "condition": {
-              "expression": "${userinput}.length == 3"
+              "expression": "${userinput}.length == 2"
             },
             "next_step": "step_380"
           },
@@ -926,12 +920,6 @@
                     "expression": "${userid}.extract('^[a-zA-Z0-9]{5,8}$',0)"
                   },
                   "skill_variable": "userid"
-                },
-                {
-                  "value": {
-                    "expression": "${location}.extract('^(8090)|^(9[0-9]{3}$)',0)"
-                  },
-                  "skill_variable": "location"
                 }
               ]
             },
@@ -955,7 +943,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "I'm sorry, but I don't think I got your login information correct.\n\n<br />\n\n\n\nI still want to help you, so could you please give me your name, ID, and location separated by commas again?"
+                            "scalar": "I'm sorry, but I don't think I got your login information correct.\n\n<br />\n\n\n\nI still want to help you, so could you please give me your username, and userid separated by a comma again?"
                           }
                         ]
                       }
@@ -995,13 +983,10 @@
                   "expression": "${username} == ''"
                 },
                 {
-                  "expression": "${location} == ''"
-                },
-                {
                   "expression": "${userid} == ''"
                 },
                 {
-                  "expression": "${userinput}.length != 3"
+                  "expression": "${userinput}.length !=2"
                 }
               ]
             },
@@ -1159,7 +1144,7 @@
             "data_type": "any"
           },
           {
-            "title": "Hi, I'll be your TDC Assistant today. Could you please tell me y",
+            "title": "Hi, I'll be your Watson Assistant today. Could you please tell m",
             "variable": "step_938",
             "data_type": "any"
           },
@@ -1196,7 +1181,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "Would you like me to send an email to the TDC Support team?"
+                            "scalar": "Would you like me to send an email to the Support Team?"
                           }
                         ]
                       }
@@ -1389,7 +1374,7 @@
                 "type": "integration_interaction",
                 "method": "POST",
                 "internal": {
-                  "catalog_item_id": "b2b6d6ac-cd91-4e8e-bdd4-a449bd1af51f"
+                  "catalog_item_id": "d14601e7-858e-49fc-9f75-370a1069b7fe"
                 },
                 "request_mapping": {
                   "body": [
@@ -1439,7 +1424,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "The TDC support team will be in contact with you soon. Thanks for using the TDC Assistant."
+                            "scalar": "The Support Team will be in contact with you soon. Thanks for using Watson Assistant."
                           }
                         ]
                       }
@@ -1489,10 +1474,10 @@
                 {
                   "options": [
                     {
-                      "label": "Ariba POs",
+                      "label": "Purchase Orders",
                       "value": {
                         "input": {
-                          "text": "Ariba POs"
+                          "text": "Purchase Orders"
                         }
                       }
                     },
@@ -1505,10 +1490,10 @@
                       }
                     },
                     {
-                      "label": "ServiceNow Tickets",
+                      "label": "Tickets",
                       "value": {
                         "input": {
-                          "text": "ServiceNow Tickets"
+                          "text": "Tickets"
                         }
                       }
                     },
@@ -1644,7 +1629,7 @@
                   "variable": "step_543"
                 },
                 {
-                  "value": "Ariba POs",
+                  "value": "Purchase Orders",
                   "from_entity": "entity_18608"
                 }
               ]
@@ -1669,7 +1654,7 @@
                   "variable": "step_543"
                 },
                 {
-                  "value": "ServiceNow Tickets",
+                  "value": "Tickets",
                   "from_entity": "entity_18608"
                 }
               ]
@@ -1685,7 +1670,7 @@
         },
         "variables": [
           {
-            "title": "Would you like me to send an email to the TDC Support team?",
+            "title": "Would you like me to send an email to the Support Team?",
             "variable": "step_187",
             "data_type": "yes_no"
           },
@@ -1753,7 +1738,7 @@
             "data_type": "any"
           },
           {
-            "title": "The TDC support team will be in contact with you soon. Thanks fo",
+            "title": "The Support Team will be in contact with you soon. Thanks for us",
             "variable": "step_593",
             "data_type": "any"
           },
@@ -1878,19 +1863,19 @@
                 "type": "integration_interaction",
                 "method": "GET",
                 "internal": {
-                  "catalog_item_id": "c5f572a4-dc7a-490f-88b8-609e2525c73c"
+                  "catalog_item_id": "d14601e7-858e-49fc-9f75-370a1069b7fe"
                 },
                 "request_mapping": {
                   "path": [
                     {
                       "value": {
-                        "skill_variable": "userid"
+                        "skill_variable": "username"
                       },
                       "parameter": "reportedby"
                     },
                     {
                       "value": {
-                        "skill_variable": "location"
+                        "skill_variable": "userid"
                       },
                       "parameter": "location"
                     }
@@ -1979,18 +1964,18 @@
                 {
                   "options": [
                     {
-                      "label": "Ariba POs",
+                      "label": "Purchase Orders",
                       "value": {
                         "input": {
-                          "text": "Ariba POs"
+                          "text": "Purchase Orders"
                         }
                       }
                     },
                     {
-                      "label": "ServiceNow Tickets",
+                      "label": "Tickets",
                       "value": {
                         "input": {
-                          "text": "ServiceNow Tickets"
+                          "text": "Tickets"
                         }
                       }
                     },
@@ -2075,7 +2060,7 @@
                   "variable": "step_783"
                 },
                 {
-                  "value": "ServiceNow Tickets",
+                  "value": "Tickets",
                   "from_entity": "entity_13137"
                 }
               ]
@@ -2100,7 +2085,7 @@
                   "variable": "step_783"
                 },
                 {
-                  "value": "Ariba POs",
+                  "value": "Purchase Orders",
                   "from_entity": "entity_13137"
                 }
               ]
@@ -2329,19 +2314,19 @@
                 "type": "integration_interaction",
                 "method": "GET",
                 "internal": {
-                  "catalog_item_id": "c5f572a4-dc7a-490f-88b8-609e2525c73c"
+                  "catalog_item_id": "d14601e7-858e-49fc-9f75-370a1069b7fe"
                 },
                 "request_mapping": {
                   "path": [
                     {
                       "value": {
-                        "skill_variable": "userid"
+                        "skill_variable": "username"
                       },
                       "parameter": "reportedby"
                     },
                     {
                       "value": {
-                        "skill_variable": "location"
+                        "skill_variable": "userid"
                       },
                       "parameter": "location"
                     }
@@ -2363,7 +2348,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "Hopefully this should help. Please select the Ariba Purchase Order you are referring to:"
+                            "scalar": "Hopefully this should help. Please select the Purchase Order you are referring to:"
                           }
                         ]
                       }
@@ -2430,10 +2415,10 @@
                 {
                   "options": [
                     {
-                      "label": "ServiceNow Tickets",
+                      "label": "Tickets",
                       "value": {
                         "input": {
-                          "text": "ServiceNow Tickets"
+                          "text": "Tickets"
                         }
                       }
                     },
@@ -2446,10 +2431,10 @@
                       }
                     },
                     {
-                      "label": "I can't find my PO",
+                      "label": "I can't find my purchase order",
                       "value": {
                         "input": {
-                          "text": "I can't find my PO"
+                          "text": "I can't find my purchase order"
                         }
                       }
                     },
@@ -2551,7 +2536,7 @@
                   "variable": "step_783"
                 },
                 {
-                  "value": "ServiceNow Tickets",
+                  "value": "Tickets",
                   "from_entity": "entity_30984"
                 }
               ]
@@ -2601,14 +2586,14 @@
                   "variable": "step_783"
                 },
                 {
-                  "value": "I can't find my PO",
+                  "value": "I can't find my purchase order",
                   "from_entity": "entity_30984"
                 }
               ]
             }
           }
         ],
-        "title": "1.1 Ariba POs",
+        "title": "1.1 Purchase orders",
         "action": "action_43673",
         "boosts": [],
         "handlers": [],
@@ -2748,7 +2733,7 @@
             "data_type": "any"
           },
           {
-            "title": "Hopefully this should help. Please select the Ariba Purchase Ord",
+            "title": "Hopefully this should help. Please select the Purchase Order you",
             "variable": "step_934",
             "data_type": "any"
           },
@@ -2780,7 +2765,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "How would you rate the TDC Assistant?"
+                            "scalar": "How would you rate Watson Assistant?"
                           }
                         ]
                       }
@@ -2884,7 +2869,7 @@
                 "type": "integration_interaction",
                 "method": "POST",
                 "internal": {
-                  "catalog_item_id": "b2b6d6ac-cd91-4e8e-bdd4-a449bd1af51f"
+                  "catalog_item_id": "d14601e7-858e-49fc-9f75-370a1069b7fe"
                 },
                 "result_variable": "step_957_result_1"
               }
@@ -2902,7 +2887,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "Thanks for using the TDC Assistant, we'll try to fix your issue."
+                            "scalar": "Thanks for using Watson Assistant, we'll try to fix your issue."
                           }
                         ]
                       }
@@ -2938,7 +2923,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "Thanks for using the TDC Assistant."
+                            "scalar": "Thanks for using Watson Assistant."
                           }
                         ]
                       }
@@ -2970,7 +2955,7 @@
         },
         "variables": [
           {
-            "title": "Thanks for using the TDC Assistant, we'll try to fix your issue.",
+            "title": "Thanks for using Watson Assistant, we'll try to fix your issue.",
             "variable": "step_145",
             "data_type": "any"
           },
@@ -2979,7 +2964,7 @@
             "data_type": "any"
           },
           {
-            "title": "How would you rate the TDC Assistant?",
+            "title": "How would you rate Watson Assistant?",
             "variable": "step_149",
             "data_type": "any"
           },
@@ -3013,7 +2998,7 @@
             "data_type": "any"
           },
           {
-            "title": "Thanks for using the TDC Assistant.",
+            "title": "Thanks for using Watson Assistant.",
             "variable": "step_567",
             "data_type": "any"
           },
@@ -3454,12 +3439,6 @@
         "intent": "action_28348_intent_12664",
         "examples": [
           {
-            "text": "Ariba"
-          },
-          {
-            "text": "Ariba POs"
-          },
-          {
             "text": "PO"
           },
           {
@@ -3478,12 +3457,6 @@
         "examples": [
           {
             "text": "See my tickets"
-          },
-          {
-            "text": "ServiceNow"
-          },
-          {
-            "text": "ServiceNow Tickets"
           },
           {
             "text": "Tickets"
@@ -3552,11 +3525,6 @@
         "values": [
           {
             "type": "synonyms",
-            "value": "Ariba POs",
-            "synonyms": []
-          },
-          {
-            "type": "synonyms",
             "value": "I can't find my request",
             "synonyms": []
           },
@@ -3567,7 +3535,12 @@
           },
           {
             "type": "synonyms",
-            "value": "ServiceNow Tickets",
+            "value": "Purchase Orders",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Tickets",
             "synonyms": []
           }
         ],
@@ -3591,22 +3564,22 @@
         "values": [
           {
             "type": "synonyms",
-            "value": "Ariba POs",
-            "synonyms": []
-          },
-          {
-            "type": "synonyms",
             "value": "No Thanks",
             "synonyms": []
           },
           {
             "type": "synonyms",
-            "value": "ServiceNow Tickets",
+            "value": "Purchase Orders",
             "synonyms": []
           },
           {
             "type": "synonyms",
             "value": "Service Requests",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Tickets",
             "synonyms": []
           }
         ],
@@ -3617,7 +3590,7 @@
         "values": [
           {
             "type": "synonyms",
-            "value": "I can't find my PO",
+            "value": "I can't find my purchase order",
             "synonyms": []
           },
           {
@@ -3627,12 +3600,12 @@
           },
           {
             "type": "synonyms",
-            "value": "ServiceNow Tickets",
+            "value": "Service Request",
             "synonyms": []
           },
           {
             "type": "synonyms",
-            "value": "Service Request",
+            "value": "Tickets",
             "synonyms": []
           }
         ],
@@ -3656,17 +3629,17 @@
         "values": [
           {
             "type": "synonyms",
-            "value": "Ariba POs",
-            "synonyms": []
-          },
-          {
-            "type": "synonyms",
             "value": "I can't find my ticket",
             "synonyms": []
           },
           {
             "type": "synonyms",
             "value": "No Thanks",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Purchase Orders",
             "synonyms": []
           },
           {
@@ -3695,17 +3668,17 @@
         "values": [
           {
             "type": "synonyms",
-            "value": "Ariba POs",
-            "synonyms": []
-          },
-          {
-            "type": "synonyms",
-            "value": "ServiceNow Tickets",
+            "value": "Purchase Orders",
             "synonyms": []
           },
           {
             "type": "synonyms",
             "value": "Service Requests ",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Tickets",
             "synonyms": []
           }
         ],
@@ -3713,29 +3686,7 @@
       },
       {
         "entity": "sys-yes-no",
-        "values": [
-          {
-            "type": "synonyms",
-            "value": "No",
-            "synonyms": [
-              "nay",
-              "negative",
-              "nope",
-              "not"
-            ]
-          },
-          {
-            "type": "synonyms",
-            "value": "Yes",
-            "synonyms": [
-              "positive",
-              "sure",
-              "yea",
-              "yeah",
-              "yup"
-            ]
-          }
-        ]
+        "values": []
       }
     ],
     "metadata": {
@@ -3868,8 +3819,8 @@
     "learning_opt_out": false
   },
   "description": "created for assistant 331083e0-92a7-4582-bbc9-6257e1cbbf82",
-  "assistant_id": "331083e0-92a7-4582-bbc9-6257e1cbbf82",
-  "workspace_id": "9cafe606-3c9d-423d-a697-18abb37bec61",
+  "assistant_id": "bf2284d5-4447-46e9-8b25-ff70e3500e61",
+  "workspace_id": "ce404a94-1700-40fa-9467-ae637fb680db",
   "dialog_settings": {},
   "next_snapshot_version": "1"
 }
