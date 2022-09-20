@@ -5,7 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-// st
+// We disabled strict mode as it would cause
+// the WA chat to re-render in local development
 root.render(<App />);
 
 reportWebVitals();
