@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { withWebChat } from '@ibm-watson/assistant-web-chat-react';
 import CustomResponsePortalsContainer from './CustomResponsePortalsContainer';
 import './App.css';
-import { ReactComponent as HomeDepotLogo } from './images/home-depot.svg';
+// import { ReactComponent as HomeDepotLogo } from './images/home-depot.svg';
 import { ReactComponent as WatsonLogo } from './images/watson.svg';
 
 const App = ({ createWebChatInstance }) => {
@@ -10,9 +10,9 @@ const App = ({ createWebChatInstance }) => {
 
   useEffect(() => {
     const watsonAssistantChatOptions = {
-      integrationID: '5db4da32-6497-4e9c-b4bb-e451b9bd09d3',
+      integrationID: 'cb2e0ab8-def9-4b7a-b886-00d9664aa012',
       region: 'us-south',
-      serviceInstanceID: '51f6030b-360a-4e10-a489-9aa28d3c7968',
+      serviceInstanceID: '4d6a2927-6c4e-48c2-8950-063e310e3efa',
       onLoad: (wacInstance) => {
         setInstance(wacInstance);
         wacInstance.render();
@@ -27,7 +27,7 @@ const App = ({ createWebChatInstance }) => {
     <div className='app'>
       <div className='main-container'>
         <div className='top-container'>
-          <HomeDepotLogo />
+          {/* <HomeDepotLogo /> */}
           <h1>WELCOME!</h1>
           <div className='powered-by-container'>
             <div className='powered-by-text'>Powered by:&nbsp;</div>
@@ -36,10 +36,9 @@ const App = ({ createWebChatInstance }) => {
         </div>
         <div className='bottom-container'>
           <div className='intro-text'>
-            I'm an assistant for the Home Depot's Technology Deployment Center.
-            I'm here to chat with you and help you with your orders placed
-            through the TDC. I can answer questions and send emails to support
-            services to aid an any issues that you may be facing.
+            I'm a chat bot assistant here to help you find information. I can
+            answer questions and send emails to support services to aid an any
+            issues that you may be facing.
           </div>
           <div className='intro-text-bold'>
             Click or tap on the icon in the corner to get started!

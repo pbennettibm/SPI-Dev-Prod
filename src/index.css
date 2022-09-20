@@ -5,11 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url('./images/toolset-background.png') no-repeat center center fixed;
+  /* background: url('./images/toolset-background.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
+  background-size: cover; */
 }
 
 @media (max-width: 650px) {
@@ -23,6 +23,9 @@ code {
     monospace;
 }
 
+/* WA specific css rules */
+
+/* 
 #WACContainer.WACContainer button.WAC__button--primary svg {
   fill: white !important;
 }
@@ -57,4 +60,4 @@ code {
 
 #WACContainer.WACContainer svg {
   fill: #F96302
-}
+} */
