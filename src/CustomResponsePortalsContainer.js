@@ -1,25 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import MaximoAccordion from './MaximoAccordion';
-import FeedbackThumbs from './FeedbackThumbs';
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+import Fixes from "./Fixes";
+import DragNDrop from "./DragNDrop"
+// import FeedbackThumbs from './FeedbackThumbs';
 
-const CustomResponsePortalsContainer = ({ instance }) => {
+export const CustomResponsePortalsContainer = ({ instance }) => {
   const [customResponseEvents, setCustomResponseEvents] = useState([]);
   const customResponseHandler = (event) => {
     setCustomResponseEvents((eventsArray) => eventsArray.concat(event));
   };
+  const [files, setFiles] = useState([]);
 
   useEffect(() => {
-    instance.on({ type: 'customResponse', handler: customResponseHandler });
+    // if (instance !== null) {
+    instance.on({ type: "customResponse", handler: customResponseHandler });
 
     return () => {
-      instance.off({ type: 'customResponse', handler: customResponseHandler });
+      instance.off({
+        type: "customResponse",
+        handler: customResponseHandler,
+      });
     };
+    // }
   }, [instance]);
 
   return (
-    <div className='watson-portal'>
+    <div className="watson-portal">
       {customResponseEvents.map(function mapEvent(event, index) {
         return (
           // eslint-disable-next-line
@@ -51,28 +58,35 @@ const CustomResponseComponentPortal = ({ hostElement, children }) => {
 
 const ResponsePicker = ({ message, hostElement, instance, event }) => {
   switch (message.user_defined.template_name) {
-    case 'maximo':
+    case "fixes":
       return (
-        <MaximoAccordion
+        <Fixes
           instance={instance}
           hostElement={hostElement}
           event={event}
           message={message}
         />
       );
-
-    case 'feedback':
-      return (
-        <FeedbackThumbs
-          instance={instance}
-          hostElement={hostElement}
-          event={event}
-          message={message}
-        />
-      );
+    // case 'feedback':
+    //   return (
+    //     <FeedbackThumbs
+    //       instance={instance}
+    //       hostElement={hostElement}
+    //       event={event}
+    //       message={message}
+    //     />
+    //   );
+    // case 'upload':
+    //   return (
+    // <DragNDrop onFilesSelected={setFiles} width="300px" height='400px' />
+    //   );
     default:
       return <></>;
   }
+};
+
+CustomResponsePortalsContainer.propTypes = {
+  instance: PropTypes.object,
 };
 
 export default CustomResponsePortalsContainer;

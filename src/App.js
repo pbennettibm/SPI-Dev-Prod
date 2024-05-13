@@ -1,50 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { withWebChat } from '@ibm-watson/assistant-web-chat-react';
-import CustomResponsePortalsContainer from './CustomResponsePortalsContainer';
-import './App.css';
+import React, { useEffect, useRef, useState } from "react";
+import { withWebChat } from "@ibm-watson/assistant-web-chat-react";
+import CustomResponsePortalsContainer from "./CustomResponsePortalsContainer";
+import "./App.css";
 // import { ReactComponent as CompanyLogo } from './images/company-logo.svg';
-import { ReactComponent as WatsonLogo } from './images/watson.svg';
+import { ReactComponent as WatsonLogo } from "./images/watson.svg";
+// import { ReactComponent as TopBar } from './images/topbar.png';
+// import { ReactComponent as LeftBar } from './images/leftbar.png';
 
 const App = ({ createWebChatInstance }) => {
   const [instance, setInstance] = useState(null);
+  const chatContainerRef = useRef(null);
+  const scriptAddedRef = useRef(false);
 
   useEffect(() => {
-    const watsonAssistantChatOptions = {
-      integrationID: 'cb2e0ab8-def9-4b7a-b886-00d9664aa012',
-      region: 'us-south',
-      serviceInstanceID: '4d6a2927-6c4e-48c2-8950-063e310e3efa',
-      onLoad: (wacInstance) => {
-        setInstance(wacInstance);
-        wacInstance.render();
-      },
-    };
+    if (!scriptAddedRef.current) {
+      scriptAddedRef.current = true;
 
-    createWebChatInstance(watsonAssistantChatOptions);
+      window.watsonAssistantChatOptions = {
+        integrationID: "06449529-00a4-44f4-bc40-24d101d494e7", // The ID of this integration.
+        region: "us-south", // The region your integration is hosted in.
+        serviceInstanceID: "f3e4635f-a864-4e75-8fc3-5997516baa13", // The ID of your service instance.
+        showLauncher: false,
+        showRestartButton: true,
+        disableSessionHistory: true,
+        element: chatContainerRef.current,
+        onLoad: (instance) => {
+          // window.watsonAssistantChatInstance = instance;
+
+          //  Disable the Home Screen
+          // instance.updateHomeScreenConfig({
+          //   is_on: false,
+          // });
+
+          //  Restart the conversation on startup
+          console.log("Restarting watson assistand conversations.");
+          instance.restartConversation();
+
+          setInstance(instance);
+          instance.render().then(() => {
+            if (!instance.getState().isWebChatOpen) {
+              instance.openWindow();
+            }
+          });
+        },
+      };
+
+      const t = document.createElement("script");
+      t.src =
+        "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" +
+        (window.watsonAssistantChatOptions.clientVersion || "latest") +
+        "/WatsonAssistantChatEntry.js";
+      document.head.appendChild(t);
+    }
     // eslint-disable-next-line
   }, []);
 
   return (
-    <div className='app'>
-      <div className='main-container'>
-        <div className='top-container'>
-          {/* <CompanyLogo /> */}
-          <h1>WELCOME!</h1>
-          <div className='powered-by-container'>
-            <div className='powered-by-text'>Powered by:&nbsp;</div>
-            <WatsonLogo className='watson' />
-          </div>
-        </div>
-        <div className='bottom-container'>
-          <div className='intro-text'>
-            I'm a chat bot assistant here to help you find information. I can
-            answer questions and send emails to support services to aid an any
-            issues that you may be facing.
-          </div>
-          <div className='intro-text-bold'>
-            Click or tap on the icon in the corner to get started!
-          </div>
-        </div>
-      </div>
+    <div className="app">
+      <img
+        src={"https://i.postimg.cc/pL5Jcw0P/topbar.png"}
+        alt="Topbar"
+        style={{ width: "100vw" }}
+      />
+      <img
+        src={"https://i.postimg.cc/cL6Tfgqk/leftbar.png"}
+        alt="Leftbar"
+        style={{ display: "display: inline-block", height: "93vh" }}
+      />
       {instance && <CustomResponsePortalsContainer instance={instance} />}
     </div>
   );

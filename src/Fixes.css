@@ -1,0 +1,62 @@
+.fixes-container {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    min-width: 325px !important;
+    width: 325px !important;
+    max-width: 95% !important;
+    flex-basis: 300px !important; /* default value */
+    flex-grow: 1 !important;
+    flex-shrink: 0 !important;
+}
+
+.fixes {
+    flex-basis: 300px !important;
+    /* flex-grow: 1 !important; */
+    min-height: 250px !important;
+    max-height: 250px !important;
+    overflow-wrap: break-word !important;
+    overflow-y: auto !important;
+    background-color: lightgray !important;
+    /* color: white !important; */
+    padding: 8px !important;
+    margin-bottom: 8px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+}
+
+.fixes-buttons-container {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 18px 0px !important;
+}
+
+.fixes-button {
+    /* min-width: 100px !important; */
+    border-radius: 16px !important;
+    background-color: #FDA509 !important;
+    color: #2D1305 !important;
+    /* margin: 0px 8px 0px 8px !important; */
+    /* margin-right: 8px !important; */
+    padding: 6px 15px !important;
+}
+
+.fixes-button:disabled {
+
+    background-color: lightgray !important;
+
+}
+
+.fixes-square {
+    margin: 0px 8px !important;
+}
+
+.fixes-square-big {
+    margin: 0px 8px !important;
+    font-size: large !important;
+    font-weight: 700 !important;
+}

@@ -1,4 +1,9 @@
-.main-container {
+.app {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* .main-container {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -93,4 +98,21 @@ h1 {
 .intro-text-bold {
   font-weight: bold;
   padding-top: 25px;
+} */
+
+#WACContainer.WACContainer .WACWidget.WACWidget--defaultElement {
+  height: 92.5vh !important;
+  width: 94.5vw !important;
+  max-height: 92.5vh !important;
+  max-width: 94.5vw !important;
+  right: 5px !important;
+  bottom: 5px !important;
+}
+
+.WACHeader {
+  visibility: hidden !important;
+}
+
+#WACContainer.WACContainer .WACWidget.WACWidget--defaultElement {
+  border-radius: 0px !important;
 }

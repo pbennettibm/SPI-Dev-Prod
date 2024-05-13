@@ -1,0 +1,123 @@
+.drag-drop {
+    background: #fff !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+  }
+  .document-uploader {
+    border: 2px dashed #4282fe !important;
+    background-color: #f4fbff !important;
+    padding: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+  
+    &.active {
+      border-color: #6dc24b !important;
+    }
+  
+    .upload-info {
+      display: flex !important;
+      align-items: center !important;
+      margin-bottom: 1rem !important;
+  
+      svg {
+        font-size: 36px !important;
+        margin-right: 1rem !important;
+      }
+  
+      div {
+        p {
+          margin: 0 !important;
+          font-size: 16px !important;
+        }
+  
+        p:first-child {
+          font-weight: bold !important;
+        }
+      }
+    }
+  
+    .file-list {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.5rem !important;
+      width: 100% !important;
+      height: 30vh !important;
+      &__container {
+        width: 100% !important;
+        height: 100% !important;
+        overflow: auto !important;
+      }
+    }
+  
+    .file-item {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 0.5rem !important;
+      border: 1px solid var(--border-color) !important;
+      border-radius: 8px !important;
+  
+      .file-info {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.25rem !important;
+        flex: 1 !important;
+  
+        p {
+          margin: 0 !important;
+          font-size: 14px !important;
+          color: #333 !important;
+        }
+      }
+  
+      .file-actions {
+        cursor: pointer !important;
+  
+        svg {
+          font-size: 18px !important;
+          color: #888 !important;
+        }
+  
+        &:hover {
+          svg {
+            color: #d44 !important;
+          }
+        }
+      }
+    }
+  
+    .browse-btn {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 0.5rem 1rem !important;
+      border: 1px solid var(--border-color) !important;
+      border-radius: 8px !important;
+      cursor: pointer !important;
+      background-color: var(--primary-color) !important;
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
+  
+    .success-file {
+      display: flex !important;
+      align-items: center !important;
+      color: #6dc24b !important;
+  
+      p {
+        margin: 0 !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+      }
+    }
+  
+    input[type="file"] {
+      display: none !important;
+    }
+  }
