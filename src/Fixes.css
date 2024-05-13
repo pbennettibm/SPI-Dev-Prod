@@ -16,8 +16,9 @@
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     justify-content: flex-start !important;
-    min-width: 325px !important;
+    flex: 1 1 auto !important;
     overflow-x: scroll !important;
+    height: 265px !important;
 }
 
 .fixes {
@@ -26,29 +27,48 @@
     min-height: 250px !important;
     max-height: 250px !important;
     overflow-y: auto !important;
-    background-color: lightgray !important;
+    background-color: white !important;
     padding: 8px !important;
     margin-bottom: 8px !important;
     border-radius: 8px !important;
     font-size: 14px !important;
-    margin-right: 8px !important;
-    scrollbar-width: none;
+    margin-right: 10px !important;
+    scrollbar-width: 5px !important;
+    border: solid !important;
 }
 
 .fixes::-webkit-scrollbar {
-    display: none;
+    width: 5px !important;
 }
 
 .markdown code {
-    display: block !important;
+    display: inline-block !important;
     white-space: pre-wrap !important;
     color: white !important;
     background-color: black !important;
+    /* margin: 4px !important; */
+    width: fit-content !important;
     /* word-break: break-all !important; */
-  }
+}
+
+.markdown p {
+    font-size: 14px !important;
+    margin-bottom: 4px !important;
+}
+
+.markdown ol {
+    list-style: decimal !important;
+    padding-left: 1rem !important;
+    font-size: 12px !important;
+    margin-bottom: 8px !important;
+}
+
+.markdown li {
+    margin-bottom: 4px !important;
+}
 
 .fixes-selected {
-    background-color: red !important;
+    background-color: lightgray !important;
 }
 
 .fixes-buttons-container {
@@ -58,22 +78,32 @@
     justify-content: center !important;
     align-items: center !important;
     margin: 18px 0px !important;
+    flex: 1 1 auto !important;
 }
 
 .fixes-button {
-    /* min-width: 100px !important; */
-    border-radius: 16px !important;
-    background-color: #FDA509 !important;
-    color: #2D1305 !important;
-    /* margin: 0px 8px 0px 8px !important; */
-    /* margin-right: 8px !important; */
-    padding: 6px 15px !important;
+    max-width: 17.5rem !important;
+    height: 2rem !important;
+    width: 100% !important;
+    /* vertical-align: middle !important; */
+    justify-content: center !important;
+    /* display: inline-flex !important; */
+    cursor: pointer !important;
+    border-radius: 4px !important;
+    border-color: transparent !important;
+    border-style: solid !important;
+    padding: 0px 1.25rem !important;
+    outline-width: 0px !important;
+    box-shadow: rgba(0, 0, 0, 0.11) 0px 1.6px 3.6px, rgba(0, 0, 0, 0.07) 0px 0.3px 0.9px !important;
+    background-color: rgb(98, 100, 167) !important;
+    color: white !important;
+    min-width: 6rem !important;
 }
 
 .fixes-button:disabled {
-
-    background-color: lightgray !important;
-
+    background-color: white !important;
+    color: rgb(98, 100, 167) !important;
+    cursor: default !important;
 }
 
 .fixes-square {

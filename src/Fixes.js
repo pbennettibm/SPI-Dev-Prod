@@ -1,7 +1,8 @@
-import React, { createRef, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Fixes.css";
 import PropTypes from "prop-types";
-import Markdown from 'react-markdown'
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 const Fixes = ({ message }) => {
   const [fixes, setFixes] = useState([]);
@@ -25,7 +26,11 @@ const Fixes = ({ message }) => {
             acc.push(subArray);
             return acc;
           } else {
-            acc.push(cur);
+            let newCur = Object.assign({}, cur);
+            if (cur.item.substring(0,5) === "<?xml") {
+              newCur.item = "```" + cur.item + "```";
+            }
+            acc.push(newCur);
             return acc;
           }
         }, []);
@@ -55,7 +60,6 @@ const Fixes = ({ message }) => {
       console.dir(fixesRef.current);
       fixesRef.current.scrollLeft = refPosition[0] * 283;
       console.dir(fixesRef.current);
-
     }
   }, [refPosition]);
 
@@ -77,14 +81,16 @@ const Fixes = ({ message }) => {
             {fixes.length > 0 &&
               fixes.map((fix, index) => {
                 return (
-                  <Markdown
-                    className={`fixes markdown ${ index === refPosition[0] ? "fixes-selected" : ""}`}
+                  <div
+                    className={`fixes markdown ${
+                      index === refPosition[0] ? "fixes-selected" : ""
+                    }`}
                     ref={(ref) => {
                       elementRef.current[index] = ref;
                     }}
                   >
-                    {fix.item}
-                  </Markdown>
+                    <Markdown rehypePlugins={[rehypeRaw]} children={fix.item} />
+                  </div>
                 );
               })}
           </div>

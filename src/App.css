@@ -116,3 +116,28 @@ h1 {
 #WACContainer.WACContainer .WACWidget.WACWidget--defaultElement {
   border-radius: 0px !important;
 }
+
+#WACContainer.WACContainer .cds--chat-btn {
+max-width: 17.5rem !important;
+height: 2rem !important;
+width: 100% !important;
+/* vertical-align: middle !important; */
+justify-content: center !important;
+/* display: inline-flex !important; */
+cursor: pointer !important;
+border-radius: 4px !important;
+border-color: transparent !important;
+border-style: solid !important;
+padding: 0px 1.25rem !important;
+outline-width: 0px !important;
+box-shadow: rgba(0, 0, 0, 0.11) 0px 1.6px 3.6px, rgba(0, 0, 0, 0.07) 0px 0.3px 0.9px !important;
+background-color: rgb(98, 100, 167) !important;
+color: white !important;
+min-width: 6rem !important;
+}
+
+#WACContainer.WACContainer .cds--chat-btn:disabled {
+  background-color: white !important;
+  color: rgb(98, 100, 167) !important;
+  cursor: default !important;
+}
