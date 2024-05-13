@@ -7,6 +7,7 @@ import rehypeRaw from "rehype-raw";
 const Fixes = ({ message }) => {
   const [fixes, setFixes] = useState([]);
   const [refPosition, setRefPosition] = useState([0, 0]);
+  const [fileName, setFileName] = useState(null);
   const fixesRef = useRef(null);
   const elementRef = useRef([]);
 
@@ -27,7 +28,13 @@ const Fixes = ({ message }) => {
             return acc;
           } else {
             let newCur = Object.assign({}, cur);
-            if (cur.item.substring(0,5) === "<?xml") {
+            if (cur.item.substring(0, 5) === "<?xml") {
+              const fileBlob = new Blob([newCur.item], { type: "text/plain" });
+              // this part avoids memory leaks
+              if (fileName !== "") window.URL.revokeObjectURL(fileName);
+
+              // update the download link state
+              setFileName(window.URL.createObjectURL(fileBlob));
               newCur.item = "```" + cur.item + "```";
             }
             acc.push(newCur);
@@ -94,37 +101,50 @@ const Fixes = ({ message }) => {
                 );
               })}
           </div>
-          <div className="fixes-buttons-container">
-            <button
-              className="fixes-button"
-              onClick={() => changePosition("minus")}
-              disabled={refPosition[0] !== 0 ? false : true}
+          {fixes.length > 1 ? (
+            <div className="fixes-buttons-container">
+              <button
+                className="fixes-button"
+                onClick={() => changePosition("minus")}
+                disabled={refPosition[0] !== 0 ? false : true}
+              >
+                Previous
+              </button>
+              {Object.keys(fixes).length > 0 &&
+                fixes.map((fix, index) => {
+                  return (
+                    <div
+                      className={`${
+                        index === refPosition[0]
+                          ? "fixes-square-big"
+                          : "fixes-square"
+                      }`}
+                      onClick={() => changePosition(`${index}`)}
+                    >
+                      {index + 1}
+                    </div>
+                  );
+                })}
+              <button
+                className="fixes-button"
+                onClick={() => changePosition("plus")}
+                disabled={refPosition[0] !== refPosition[1] ? false : true}
+              >
+                Next
+              </button>
+            </div>
+          ) : (
+            <a
+              // this attribute sets the filename
+              download="setting.xml"
+              // link to the download URL
+              href={fileName}
             >
-              Previous
-            </button>
-            {Object.keys(fixes).length > 0 &&
-              fixes.map((fix, index) => {
-                return (
-                  <div
-                    className={`${
-                      index === refPosition[0]
-                        ? "fixes-square-big"
-                        : "fixes-square"
-                    }`}
-                    onClick={() => changePosition(`${index}`)}
-                  >
-                    {index + 1}
-                  </div>
-                );
-              })}
-            <button
-              className="fixes-button"
-              onClick={() => changePosition("plus")}
-              disabled={refPosition[0] !== refPosition[1] ? false : true}
-            >
-              Next
-            </button>
-          </div>
+              <button className="fixes-button">
+                Download
+              </button>
+            </a>
+          )}
         </div>
       )}
     </>
