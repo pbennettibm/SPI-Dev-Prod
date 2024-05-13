@@ -80,10 +80,15 @@ const Fixes = ({ message }) => {
     }
   };
 
+  const openModal = (e) => {
+    console.log("Modal : ", e)
+  }
+
   return (
     <>
       {Object.keys(fixes).length > 0 && (
         <div className="fixes-container">
+          <div className="fixes-outside-container">
           <div className="fixes-inside-container" ref={fixesRef}>
             {fixes.length > 0 &&
               fixes.map((fix, index) => {
@@ -95,8 +100,9 @@ const Fixes = ({ message }) => {
                     ref={(ref) => {
                       elementRef.current[index] = ref;
                     }}
+                    onClick={() => changePosition(`${index}`)}
                   >
-                    <Markdown rehypePlugins={[rehypeRaw]} children={fix.item} />
+                    <Markdown components={{ a: openModal }} rehypePlugins={[rehypeRaw]} children={fix.item} />
                   </div>
                 );
               })}
@@ -145,6 +151,7 @@ const Fixes = ({ message }) => {
               </button>
             </a>
           )}
+          </div>
         </div>
       )}
     </>

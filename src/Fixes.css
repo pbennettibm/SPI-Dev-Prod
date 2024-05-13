@@ -1,5 +1,5 @@
 .fixes-container {
-    display: inline-flex !important;
+    display: flex !important;
     flex-direction: column !important;
     flex-wrap: nowrap !important;
     justify-content: flex-start !important;
@@ -11,14 +11,23 @@
     /* flex-shrink: 0 !important;  */
 }
 
+.fixes-outside-container {
+    display: inline-flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    justify-content: flex-start !important;
+    max-width: fit-content !important;
+}
+
 .fixes-inside-container {
     display: inline-flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     justify-content: flex-start !important;
     flex: 1 1 auto !important;
-    overflow-x: scroll !important;
+    overflow-x: auto !important;
     height: 265px !important;
+    max-width: fit-content !important;
 }
 
 .fixes {
@@ -79,7 +88,8 @@
     align-items: center !important;
     margin: 18px 0px !important;
     flex: 1 1 auto !important;
-    max-width: 87vw !important;
+    max-width: 90vw !important;
+    min-width: fit-content !important;
 }
 
 .fixes-button {
