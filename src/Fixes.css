@@ -1,5 +1,5 @@
 .fixes-container {
-    display: flex !important;
+    display: inline-flex !important;
     flex-direction: column !important;
     flex-wrap: nowrap !important;
     justify-content: flex-start !important;
@@ -12,7 +12,7 @@
 }
 
 .fixes-inside-container {
-    display: flex !important;
+    display: inline-flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     justify-content: flex-start !important;
@@ -33,13 +33,13 @@
     border-radius: 8px !important;
     font-size: 14px !important;
     margin-right: 10px !important;
-    scrollbar-width: 5px !important;
+    /* scrollbar-width: 5px !important; */
     border: solid !important;
 }
 
-.fixes::-webkit-scrollbar {
+/* .fixes::-webkit-scrollbar {
     width: 5px !important;
-}
+} */
 
 .markdown code {
     display: inline-block !important;
@@ -72,13 +72,14 @@
 }
 
 .fixes-buttons-container {
-    display: flex !important;
+    display: inline-flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     justify-content: center !important;
     align-items: center !important;
     margin: 18px 0px !important;
     flex: 1 1 auto !important;
+    max-width: 87vw !important;
 }
 
 .fixes-button {
