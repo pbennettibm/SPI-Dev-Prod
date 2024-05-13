@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import DragNDrop from "./DragNDrop";
 
 const Fixes = ({ message }) => {
-  const [fixes, setFixes] = useState({});
+  const [fixes, setFixes] = useState([]);
   const [refPosition, setRefPosition] = useState([0, 0]);
   const fixesRef = useRef(null);
   const elementRef = useRef([]);
@@ -49,19 +49,15 @@ const Fixes = ({ message }) => {
     }
   }, [fixes, message.user_defined.value]);
 
-  // useEffect(() => {
-  //     // Scrolls to the bottom of the scrollable area
-  //     console.log("element ref :", elementRef)
-  //     console.log("ref pos :", refPosition)
-  //     console.dir(fixesRef);
-  //     // fixesRef.scrollLeft = refPosition * 315
-  //     if (elementRef.current[refPosition]) {
-  //       console.dir(elementRef.current[refPosition])
-  //       setTimeout(() => {
-  //         elementRef.current[refPosition].scrollIntoView()
-  //       }, 1000);
-  //     }
-  //   }, [refPosition]);
+  useEffect(() => {
+    console.log("Element ref :", elementRef, "Ref pos :", refPosition);
+    if (elementRef.current[refPosition[0]]) {
+      console.dir(fixesRef.current);
+      fixesRef.current.scrollLeft = refPosition[0] * 283;
+      console.dir(fixesRef.current);
+
+    }
+  }, [refPosition]);
 
   const changePosition = (dir) => {
     if (dir === "plus") {
@@ -76,10 +72,23 @@ const Fixes = ({ message }) => {
   return (
     <>
       {Object.keys(fixes).length > 0 && (
-        <div className="fixes-container" ref={fixesRef}>
-          <div className="fixes">{fixes[refPosition[0]].item}</div>
-
-          <div className="fixes-buttons-container" ref={fixesRef}>
+        <div className="fixes-container">
+          <div className="fixes-inside-container" ref={fixesRef}>
+            {fixes.length > 0 &&
+              fixes.map((fix, index) => {
+                return (
+                  <div
+                    className={`fixes ${ index === refPosition[0] ? "fixes-selected" : ""}`}
+                    ref={(ref) => {
+                      elementRef.current[index] = ref;
+                    }}
+                  >
+                    {fix.item}
+                  </div>
+                );
+              })}
+          </div>
+          <div className="fixes-buttons-container">
             <button
               className="fixes-button"
               onClick={() => changePosition("minus")}
