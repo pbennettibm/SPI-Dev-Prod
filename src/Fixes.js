@@ -1,7 +1,7 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
 import "./Fixes.css";
 import PropTypes from "prop-types";
-import DragNDrop from "./DragNDrop";
+import Markdown from 'react-markdown'
 
 const Fixes = ({ message }) => {
   const [fixes, setFixes] = useState([]);
@@ -77,14 +77,14 @@ const Fixes = ({ message }) => {
             {fixes.length > 0 &&
               fixes.map((fix, index) => {
                 return (
-                  <div
-                    className={`fixes ${ index === refPosition[0] ? "fixes-selected" : ""}`}
+                  <Markdown
+                    className={`fixes markdown ${ index === refPosition[0] ? "fixes-selected" : ""}`}
                     ref={(ref) => {
                       elementRef.current[index] = ref;
                     }}
                   >
                     {fix.item}
-                  </div>
+                  </Markdown>
                 );
               })}
           </div>
