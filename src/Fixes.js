@@ -8,6 +8,7 @@ const Fixes = ({ instance, message }) => {
   const [fixes, setFixes] = useState([]);
   const [refPosition, setRefPosition] = useState([0, 0]);
   const [fileName, setFileName] = useState(null);
+  const [fileTitle, setFileTitle] = useState(null)
   const [isDisabled, setIsDisabled] = useState(false);
   const fixesRef = useRef(null);
   const elementRef = useRef([]);
@@ -37,6 +38,7 @@ const Fixes = ({ instance, message }) => {
 
               // update the download link state
               setFileName(window.URL.createObjectURL(fileBlob));
+              setFileTitle("settings.xml")
               newCur.item = "```" + cur.item + "```";
             }
             acc.push(newCur);
@@ -87,7 +89,7 @@ const Fixes = ({ instance, message }) => {
       console.log("Scrolling to : ", messagesEndRef);
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 500);
+      }, 750);
     }
   }, [messagesEndRef]);
 
@@ -116,8 +118,11 @@ const Fixes = ({ instance, message }) => {
                   fixes.map((fix, index) => {
                     return (
                       <div
-                        className={`fixes markdown ${
-                          index === refPosition[0] ? "fixes-selected" : ""
+                        className={`markdown ${
+                          fixes.length < 2 ? "fixes-long" : ""
+                        }
+                        ${
+                          index === refPosition[0] ? "fixes-selected" : "fixes"
                         }`}
                         ref={(ref) => {
                           elementRef.current[index] = ref;
@@ -168,7 +173,7 @@ const Fixes = ({ instance, message }) => {
               ) : (
                 <a
                   // this attribute sets the filename
-                  download="setting.xml"
+                  download={fileTitle}
                   // link to the download URL
                   href={fileName}
                 >

@@ -3,6 +3,18 @@
   width: 100vw;
 }
 
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgb(98, 100, 167);
+  box-shadow: rgba(0, 0, 0, 0.11) 0px 1.6px 3.6px, rgba(0, 0, 0, 0.07) 0px 0.3px 0.9px;
+}
+
 /* .main-container {
   position: absolute;
   display: flex;
