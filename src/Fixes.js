@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 
-const Fixes = ({ message }) => {
+const Fixes = ({ instance, message }) => {
   const [fixes, setFixes] = useState([]);
   const [refPosition, setRefPosition] = useState([0, 0]);
   const [fileName, setFileName] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(false);
   const fixesRef = useRef(null);
   const elementRef = useRef([]);
-  const messagesEndRef = useRef(null)
+  let messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (Object.keys(fixes).length === 0) {
@@ -72,9 +73,21 @@ const Fixes = ({ message }) => {
   }, [refPosition]);
 
   useEffect(() => {
+    const handler = (event) => {
+      console.log(event.data.context); // You can also manipulate context here.
+      console.log(event.data.input); // You can also manipulate input here. Maybe filter private data?
+      messagesEndRef.current = null;
+      setIsDisabled(true)
+    };
+    instance.once({ type: "send", handler: handler });
+  }, [instance]);
+
+  useEffect(() => {
     if (messagesEndRef !== null) {
-      console.log("Scrolling to : ", messagesEndRef)
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+      console.log("Scrolling to : ", messagesEndRef);
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 500);
     }
   }, [messagesEndRef]);
 
@@ -89,80 +102,84 @@ const Fixes = ({ message }) => {
   };
 
   const openModal = (e) => {
-    console.log("Modal : ", e)
-  }
+    console.log("Modal : ", e);
+  };
 
   return (
     <>
       {Object.keys(fixes).length > 0 && (
-        <div className="fixes-container">
-          <div className="fixes-outside-container">
-          <div className="fixes-inside-container" ref={fixesRef}>
-            {fixes.length > 0 &&
-              fixes.map((fix, index) => {
-                return (
-                  <div
-                    className={`fixes markdown ${
-                      index === refPosition[0] ? "fixes-selected" : ""
-                    }`}
-                    ref={(ref) => {
-                      elementRef.current[index] = ref;
-                    }}
-                    onClick={() => changePosition(`${index}`)}
+        <>
+          <div className="fixes-container">
+            <div className="fixes-outside-container">
+              <div className="fixes-inside-container" ref={fixesRef}>
+                {fixes.length > 0 &&
+                  fixes.map((fix, index) => {
+                    return (
+                      <div
+                        className={`fixes markdown ${
+                          index === refPosition[0] ? "fixes-selected" : ""
+                        }`}
+                        ref={(ref) => {
+                          elementRef.current[index] = ref;
+                        }}
+                        onClick={() => changePosition(`${index}`)}
+                      >
+                        <Markdown
+                          components={{ a: openModal }}
+                          rehypePlugins={[rehypeRaw]}
+                          children={fix.item}
+                        />
+                      </div>
+                    );
+                  })}
+              </div>
+              {fixes.length > 1 ? (
+                <div className="fixes-buttons-container">
+                  <button
+                    className="fixes-button"
+                    onClick={() => changePosition("minus")}
+                    disabled={isDisabled ? true : refPosition[0] !== 0 ? false : true}
                   >
-                    <Markdown components={{ a: openModal }} rehypePlugins={[rehypeRaw]} children={fix.item} />
-                  </div>
-                );
-              })}
-          </div>
-          {fixes.length > 1 ? (
-            <div className="fixes-buttons-container">
-              <button
-                className="fixes-button"
-                onClick={() => changePosition("minus")}
-                disabled={refPosition[0] !== 0 ? false : true}
-              >
-                Previous
-              </button>
-              {Object.keys(fixes).length > 0 &&
-                fixes.map((fix, index) => {
-                  return (
-                    <div
-                      className={`${
-                        index === refPosition[0]
-                          ? "fixes-square-big"
-                          : "fixes-square"
-                      }`}
-                      onClick={() => changePosition(`${index}`)}
-                    >
-                      {index + 1}
-                    </div>
-                  );
-                })}
-              <button
-                className="fixes-button"
-                onClick={() => changePosition("plus")}
-                disabled={refPosition[0] !== refPosition[1] ? false : true}
-              >
-                Next
-              </button>
+                    Previous
+                  </button>
+                  {Object.keys(fixes).length > 0 &&
+                    fixes.map((fix, index) => {
+                      return (
+                        <div
+                          className={`${
+                            index === refPosition[0]
+                              ? "fixes-square-big"
+                              : "fixes-square"
+                          }`}
+                          onClick={() => changePosition(`${index}`)}
+                        >
+                          {index + 1}
+                        </div>
+                      );
+                    })}
+                  <button
+                    className="fixes-button"
+                    onClick={() => changePosition("plus")}
+                    disabled={isDisabled ? true : refPosition[0] !== refPosition[1] ? false : true}
+                  >
+                    Next
+                  </button>
+                </div>
+              ) : (
+                <a
+                  // this attribute sets the filename
+                  download="setting.xml"
+                  // link to the download URL
+                  href={fileName}
+                >
+                  <button className="fixes-button">Download</button>
+                </a>
+              )}
             </div>
-          ) : (
-            <a
-              // this attribute sets the filename
-              download="setting.xml"
-              // link to the download URL
-              href={fileName}
-            >
-              <button className="fixes-button">
-                Download
-              </button>
-            </a>
-          )}
           </div>
-        </div>
+          <div className="end" ref={messagesEndRef} />
+        </>
       )}
-      <div className="end" ref={messagesEndRef} />
     </>
   );
 };
