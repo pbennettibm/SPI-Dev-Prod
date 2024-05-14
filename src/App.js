@@ -2,10 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { withWebChat } from "@ibm-watson/assistant-web-chat-react";
 import CustomResponsePortalsContainer from "./CustomResponsePortalsContainer";
 import "./App.css";
-// import { ReactComponent as CompanyLogo } from './images/company-logo.svg';
-import { ReactComponent as WatsonLogo } from "./images/watson.svg";
-// import { ReactComponent as TopBar } from './images/topbar.png';
-// import { ReactComponent as LeftBar } from './images/leftbar.png';
 
 const App = ({ createWebChatInstance }) => {
   const [instance, setInstance] = useState(null);
@@ -17,9 +13,9 @@ const App = ({ createWebChatInstance }) => {
       scriptAddedRef.current = true;
 
       window.watsonAssistantChatOptions = {
-        integrationID: "06449529-00a4-44f4-bc40-24d101d494e7", // The ID of this integration.
-        region: "us-south", // The region your integration is hosted in.
-        serviceInstanceID: "f3e4635f-a864-4e75-8fc3-5997516baa13", // The ID of your service instance.
+        integrationID: process.env.REACT_APP_WA_INTEGRATION_ID, // The ID of this integration.
+        region: process.env.REACT_APP_WA_REGION, // The region your integration is hosted in.
+        serviceInstanceID: process.env.REACT_APP_WA_SERVICE_INSTANCE_ID, // The ID of your service instance.
         showLauncher: false,
         showRestartButton: true,
         disableSessionHistory: true,

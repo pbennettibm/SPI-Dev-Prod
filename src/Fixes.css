@@ -160,6 +160,12 @@
     margin: 0px 8px !important;
 }
 
+.fixes-square:hover {
+    font-size: large !important;
+    font-weight: 500 !important;
+    margin: 0px 6.5px !important;
+}
+
 .fixes-square-big {
     margin: 0px 8px !important;
     font-size: large !important;

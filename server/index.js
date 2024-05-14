@@ -3,11 +3,15 @@ const morgan = require("morgan");
 const path = require("path");
 const nodemailer = require("nodemailer");
 const app = express();
+const dotenv = require("dotenv");
+dotenv.config();
 
 const port = 8443;
 
 app.use(express.static(path.join(__dirname, "../build")));
 app.use(morgan("combined"));
+
+console.log(process.env.EMAIL_HOST)
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
@@ -20,11 +24,11 @@ app.post("/email", (req, res) => {
 
   const sendMail = (editedMessage) => {
     const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
+      host: process.env.EMAIL_HOST,
       port: 587,
       auth: {
-        user: "brian.carroll25@ethereal.email",
-        pass: "VuWvbt124aE6AHJP9u",
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
 

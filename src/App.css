@@ -118,7 +118,7 @@ h1 {
 
 .left-bar {
   display: inline-block !important;
-  height: 93vh !important;
+  height: calc(100vh - 60px) !important;
   width: 80px !important;
   margin-top: -5px !important;
 }
