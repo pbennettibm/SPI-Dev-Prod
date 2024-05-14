@@ -36,8 +36,8 @@
 } */
 
 .fixes {
-    min-width: 275px !important;
-    max-width: 275px !important;
+    min-width: 278px !important;
+    max-width: 278px !important;
     min-height: 250px !important;
     max-height: 250px !important;
     overflow-y: auto !important;
@@ -58,6 +58,7 @@
 .fixes-long {
     min-width: 550px !important;
     max-width: 550px !important;
+    margin-right: 0px !important;
 }
 
 .markdown code {
@@ -87,8 +88,8 @@
 }
 
 .fixes-selected {
-    min-width: 275px !important;
-    max-width: 275px !important;
+    min-width: 278px !important;
+    max-width: 278px !important;
     min-height: 250px !important;
     max-height: 250px !important;
     overflow-y: auto !important;
@@ -117,6 +118,10 @@
     border-radius: 4px !important;
     background-color: black !important;
     box-shadow: rgba(0, 0, 0, 0.11) 0px 1.6px 3.6px, rgba(0, 0, 0, 0.07) 0px 0.3px 0.9px !important;
+}
+
+.fixes-margin-end {
+    margin-right: 0px !important;
 }
 
 .fixes-buttons-container {

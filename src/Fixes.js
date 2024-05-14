@@ -69,7 +69,7 @@ const Fixes = ({ instance, message }) => {
     console.log("Element ref :", elementRef, "Ref pos :", refPosition);
     if (elementRef.current[refPosition[0]]) {
       console.dir(fixesRef.current);
-      fixesRef.current.scrollLeft = refPosition[0] * 283;
+      fixesRef.current.scrollLeft = refPosition[0] * 284;
       console.dir(fixesRef.current);
     }
   }, [refPosition]);
@@ -123,6 +123,9 @@ const Fixes = ({ instance, message }) => {
                         }
                         ${
                           index === refPosition[0] ? "fixes-selected" : "fixes"
+                        }
+                        ${
+                          fixes.length - 1 === index ? "fixes-margin-end" : ""
                         }`}
                         ref={(ref) => {
                           elementRef.current[index] = ref;
