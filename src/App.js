@@ -61,11 +61,12 @@ const App = ({ createWebChatInstance }) => {
         src={"https://i.postimg.cc/pL5Jcw0P/topbar.png"}
         alt="Topbar"
         style={{ width: "100vw" }}
+        className="top-bar"
       />
       <img
         src={"https://i.postimg.cc/cL6Tfgqk/leftbar.png"}
         alt="Leftbar"
-        style={{ display: "display: inline-block", height: "93vh" }}
+        className="left-bar"
       />
       {instance && <CustomResponsePortalsContainer instance={instance} />}
     </div>

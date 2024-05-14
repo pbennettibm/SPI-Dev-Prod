@@ -10,6 +10,7 @@ const Fixes = ({ message }) => {
   const [fileName, setFileName] = useState(null);
   const fixesRef = useRef(null);
   const elementRef = useRef([]);
+  const messagesEndRef = useRef(null)
 
   useEffect(() => {
     if (Object.keys(fixes).length === 0) {
@@ -69,6 +70,13 @@ const Fixes = ({ message }) => {
       console.dir(fixesRef.current);
     }
   }, [refPosition]);
+
+  useEffect(() => {
+    if (messagesEndRef !== null) {
+      console.log("Scrolling to : ", messagesEndRef)
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+  }, [messagesEndRef]);
 
   const changePosition = (dir) => {
     if (dir === "plus") {
@@ -154,6 +162,7 @@ const Fixes = ({ message }) => {
           </div>
         </div>
       )}
+      <div className="end" ref={messagesEndRef} />
     </>
   );
 };

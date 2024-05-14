@@ -99,12 +99,23 @@ h1 {
   font-weight: bold;
   padding-top: 25px;
 } */
+.top-bar {
+  width: 100vw !important;
+  height: 58px !important;
+}
+
+.left-bar {
+  display: inline-block !important;
+  height: 93vh !important;
+  width: 80px !important;
+  margin-top: -5px !important;
+}
 
 #WACContainer.WACContainer .WACWidget.WACWidget--defaultElement {
-  height: 92.5vh !important;
-  width: 94.5vw !important;
-  max-height: 92.5vh !important;
-  max-width: 94.5vw !important;
+  height: calc(100vh - 64px) !important;
+  width: calc(100vw - 86px) !important;
+  max-height: calc(100vh - 64px) !important;
+  max-width: calc(100vw - 86px) !important;
   right: 5px !important;
   bottom: 5px !important;
 }
