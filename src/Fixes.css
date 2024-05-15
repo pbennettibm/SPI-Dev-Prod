@@ -42,7 +42,7 @@
     max-height: 250px !important;
     overflow-y: auto !important;
     background-color: white !important;
-    padding: 8px 10px 8px 8px !important;
+    padding: 8px !important;
     margin-bottom: 8px !important;
     border-radius: 8px !important;
     font-size: 14px !important;
@@ -94,7 +94,7 @@
     max-height: 250px !important;
     overflow-y: auto !important;
     background-color: white !important;
-    padding: 8px 10px 8px 8px !important;
+    padding: 8px !important;
     margin-bottom: 8px !important;
     border-radius: 8px !important;
     font-size: 14px !important;

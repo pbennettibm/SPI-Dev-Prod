@@ -76,8 +76,6 @@ const Fixes = ({ instance, message }) => {
 
   useEffect(() => {
     const handler = (event) => {
-      console.log(event.data.context); // You can also manipulate context here.
-      console.log(event.data.input); // You can also manipulate input here. Maybe filter private data?
       messagesEndRef.current = null;
       setIsDisabled(true)
     };

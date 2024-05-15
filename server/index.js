@@ -46,22 +46,24 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
       },
     });
 
-    let text = `I am having an issue with ${emailMessage.title} specific to ${emailMessage.subtitle}.
+    let text = `I am having an issue with ${emailMessage.title} specific to ${emailMessage.subtitle}.  I read through the wiki's steps and still am unable to fix my problem.  Here is my issue:
+
+    ${emailMessage.issue}
     
-    I read through the wiki's steps and still am unable to fix my problem.`;
+    `;
 
     if (fileStream) {
-      text += "  I have attached my code to this email."
+      text += `I have attached my code to this email.
+
+      `;
     }
 
-    text += `
-    
-    Can you please help?`
+    text += `Can you please help?`;
 
     const options = {
       from: "brian.carroll25@ethereal.email",
       to: ["brian.carroll25@ethereal.email"],
-      subject: "401 test",
+      subject: `${emailMessage.title}-${emailMessage.subtitle}`,
       text: text,
     };
 
