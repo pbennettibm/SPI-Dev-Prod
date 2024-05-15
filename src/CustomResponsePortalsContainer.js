@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import Fixes from "./Fixes";
-import DragNDrop from "./DragNDrop"
+import Upload from "./Upload";
 // import FeedbackThumbs from './FeedbackThumbs';
 
 export const CustomResponsePortalsContainer = ({ instance }) => {
@@ -10,7 +10,6 @@ export const CustomResponsePortalsContainer = ({ instance }) => {
   const customResponseHandler = (event) => {
     setCustomResponseEvents((eventsArray) => eventsArray.concat(event));
   };
-  const [files, setFiles] = useState([]);
 
   useEffect(() => {
     // if (instance !== null) {
@@ -76,10 +75,15 @@ const ResponsePicker = ({ message, hostElement, instance, event }) => {
     //       message={message}
     //     />
     //   );
-    // case 'upload':
-    //   return (
-    // <DragNDrop onFilesSelected={setFiles} width="300px" height='400px' />
-    //   );
+    case "upload":
+      return (
+        <Upload
+          instance={instance}
+          hostElement={hostElement}
+          event={event}
+          message={message}
+        />
+      );
     default:
       return <></>;
   }
