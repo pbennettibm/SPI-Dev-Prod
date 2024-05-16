@@ -46,7 +46,7 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
       },
     });
 
-    let text = `I am having an issue with ${emailMessage.title} specific to ${emailMessage.subtitle}.  I read through the wiki's steps and still am unable to fix my problem.  Here is my issue:
+    let text = `I am having an issue with ${emailMessage.title || "an unknown question"} specific to ${emailMessage.subtitle || "a tool that doesn't appear in the UPS Developer Assistant"}.${emailMessage.subtitle ? "  I read through the wiki's steps and still am unable to fix my problem." : "  I did not read through the wiki's steps as I am asking a question that it doesn't have the answer to currently." }  Here is my issue:
 
     ${emailMessage.issue}
     
@@ -58,12 +58,12 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
       `;
     }
 
-    text += `Can you please help?`;
+    // text += `Can you please help?`;
 
     const options = {
       from: "brian.carroll25@ethereal.email",
       to: ["brian.carroll25@ethereal.email"],
-      subject: `${emailMessage.title}-${emailMessage.subtitle}`,
+      subject: `${emailMessage.title || "Unknown"}-${emailMessage.subtitle || "Unknown"}`,
       text: text,
     };
 

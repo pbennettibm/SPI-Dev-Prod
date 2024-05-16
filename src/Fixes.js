@@ -15,6 +15,7 @@ const Fixes = ({ instance, message }) => {
   let messagesEndRef = useRef(null);
 
   useEffect(() => {
+    // console.log("Fixes 1 :", message.user_defined.value);
     if (Object.keys(fixes).length === 0) {
       console.log("Fixes :", message.user_defined.value.source_docs.fix);
 

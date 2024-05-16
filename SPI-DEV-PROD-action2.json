@@ -1,0 +1,5322 @@
+{
+  "name": "SPI-DEV-PROD-action",
+  "type": "action",
+  "valid": true,
+  "status": "Available",
+  "created": "2024-05-06T15:11:43.101Z",
+  "updated": "2024-05-16T03:15:22.301Z",
+  "language": "en",
+  "skill_id": "226ddff5-6e87-4304-993c-c5615f903503",
+  "workspace": {
+    "actions": [
+      {
+        "type": "standard",
+        "steps": [
+          {
+            "step": "step_572",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What JFrog question do you have?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                }
+              ]
+            },
+            "handlers": [],
+            "question": {
+              "free_text": true
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_572",
+            "next_step": "step_445"
+          },
+          {
+            "step": "step_445",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "JFrog 401 Authentication Errors"
+                  },
+                  "skill_variable": "title"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_445",
+            "condition": {
+              "or": [
+                {
+                  "contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "401",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "authentication",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_142"
+          },
+          {
+            "step": "step_142",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "JFrog 403 Errors"
+                  },
+                  "skill_variable": "title"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_142",
+            "condition": {
+              "or": [
+                {
+                  "contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "403",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "artifact",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_945"
+          },
+          {
+            "step": "step_945",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Sorry, I’m not sure what the question is. Are you looking for help with one of the following?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "JFrog 401 Authentication Errors",
+                      "value": {
+                        "input": {
+                          "text": "JFrog 401 Authentication Errors"
+                        }
+                      }
+                    },
+                    {
+                      "label": "JFrog 403 Artifact Errors",
+                      "value": {
+                        "input": {
+                          "text": "JFrog 403 Artifact Errors"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Something Else",
+                      "value": {
+                        "input": {
+                          "text": "Something Else"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": []
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I didn't catch that. Select a valid option:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "entity_5114",
+              "max_tries": 3
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_945",
+            "condition": {
+              "and": [
+                {
+                  "not_contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "401",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "not_contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "authentication",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "not_contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "403",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "not_contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "artifact",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_242"
+          },
+          {
+            "step": "step_242",
+            "output": {
+              "generic": []
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_945"
+                  },
+                  "skill_variable": "title"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_242",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "not_contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "not_contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "authentication",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "not_contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "403",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "not_contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "artifact",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_945"
+                        },
+                        {
+                          "value": "JFrog 401 Authentication Errors",
+                          "from_entity": "entity_5114"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_945"
+                        },
+                        {
+                          "value": "JFrog 403 Artifact Errors",
+                          "from_entity": "entity_5114"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_468"
+          },
+          {
+            "step": "step_468",
+            "output": {
+              "generic": []
+            },
+            "context": {
+              "variables": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_468",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "not_contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "not_contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "authentication",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "not_contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "403",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "not_contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "artifact",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "neq": [
+                        {
+                          "variable": "step_945"
+                        },
+                        {
+                          "value": "JFrog 401 Authentication Errors",
+                          "from_entity": "entity_5114"
+                        }
+                      ]
+                    },
+                    {
+                      "neq": [
+                        {
+                          "variable": "step_945"
+                        },
+                        {
+                          "value": "JFrog 403 Artifact Errors",
+                          "from_entity": "entity_5114"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_714"
+          },
+          {
+            "step": "step_714",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Sure, I can help you with that."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "time": 3000,
+                  "typing": true,
+                  "response_type": "pause"
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What tool do you need help with?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "NPM",
+                      "value": {
+                        "input": {
+                          "text": "NPM"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Nuget",
+                      "value": {
+                        "input": {
+                          "text": "Nuget"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Maven",
+                      "value": {
+                        "input": {
+                          "text": "Maven"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Something Else",
+                      "value": {
+                        "input": {
+                          "text": "Something Else"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "Sorry, I didn't catch that. Please select a valid option so I can help you with your issue:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "entity_3922",
+              "max_tries": 3
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_714",
+            "condition": {
+              "contains": [
+                {
+                  "skill_variable": "title"
+                },
+                {
+                  "scalar": "401",
+                  "options": {
+                    "ignore_case": true
+                  }
+                }
+              ]
+            },
+            "next_step": "step_113"
+          },
+          {
+            "step": "step_113",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Sorry, I’m not sure what tool you selected.  Please select one of the following:"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "NPM",
+                      "value": {
+                        "input": {
+                          "text": "NPM"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Nuget",
+                      "value": {
+                        "input": {
+                          "text": "Nuget"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Maven",
+                      "value": {
+                        "input": {
+                          "text": "Maven"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Something Else",
+                      "value": {
+                        "input": {
+                          "text": "Something Else"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I didn't catch that. Select a valid option:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "entity_20090",
+              "max_tries": 3
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_113",
+            "condition": {
+              "and": [
+                {
+                  "contains": [
+                    {
+                      "skill_variable": "title"
+                    },
+                    {
+                      "scalar": "401",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "neq": [
+                    {
+                      "variable": "step_714"
+                    },
+                    {
+                      "value": "Maven",
+                      "from_entity": "entity_3922"
+                    }
+                  ]
+                },
+                {
+                  "neq": [
+                    {
+                      "variable": "step_714"
+                    },
+                    {
+                      "value": "Nuget",
+                      "from_entity": "entity_3922"
+                    }
+                  ]
+                },
+                {
+                  "neq": [
+                    {
+                      "variable": "step_714"
+                    },
+                    {
+                      "value": "NPM",
+                      "from_entity": "entity_3922"
+                    }
+                  ]
+                },
+                {
+                  "neq": [
+                    {
+                      "variable": "step_714"
+                    },
+                    {
+                      "value": "Something Else",
+                      "from_entity": "entity_3922"
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_892"
+          },
+          {
+            "step": "step_892",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I\"ll look that up for you."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_714"
+                  },
+                  "skill_variable": "subtitle"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/search_ts",
+                "type": "integration_interaction",
+                "method": "GET",
+                "internal": {
+                  "spec_hash_id": "1a4c070562de466d4d49289798b9c4cfc513f74d9b21f09ac58f68883645b136",
+                  "catalog_item_id": "873bcc64-2107-461c-816d-7af1448f7979"
+                },
+                "request_mapping": {
+                  "query": [
+                    {
+                      "value": {
+                        "skill_variable": "title"
+                      },
+                      "parameter": "title"
+                    },
+                    {
+                      "value": {
+                        "skill_variable": "subtitle"
+                      },
+                      "parameter": "subtitle"
+                    }
+                  ]
+                },
+                "result_variable": "step_892_result_1"
+              }
+            },
+            "variable": "step_892",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "contains": [
+                        {
+                          "skill_variable": "title"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "in": [
+                        {
+                          "variable": "step_714"
+                        },
+                        {
+                          "collection": [
+                            {
+                              "value": "NPM",
+                              "from_entity": "entity_3922"
+                            },
+                            {
+                              "value": "Maven",
+                              "from_entity": "entity_3922"
+                            },
+                            {
+                              "value": "Nuget",
+                              "from_entity": "entity_3922"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_395"
+          },
+          {
+            "step": "step_395",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Here are the steps to take to fix your issue:"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "user_defined": {
+                    "value": "${extension_return}",
+                    "request_type": "work",
+                    "template_name": "fixes"
+                  },
+                  "response_type": "user_defined",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to see how to create an `npmrc` file?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_892_result_1",
+                    "variable_path": "body.response"
+                  },
+                  "skill_variable": "extension_return"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_395",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "contains": [
+                        {
+                          "skill_variable": "title"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_714"
+                        },
+                        {
+                          "value": "NPM",
+                          "from_entity": "entity_3922"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_113"
+                        },
+                        {
+                          "value": "NPM",
+                          "from_entity": "entity_20090"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_958"
+          },
+          {
+            "step": "step_958",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Sure, I'll get that for you now."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "Setting NPM Configuration files for JFrog"
+                  },
+                  "skill_variable": "file_name"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/search_ts",
+                "type": "integration_interaction",
+                "method": "GET",
+                "internal": {
+                  "spec_hash_id": "1a4c070562de466d4d49289798b9c4cfc513f74d9b21f09ac58f68883645b136",
+                  "catalog_item_id": "873bcc64-2107-461c-816d-7af1448f7979"
+                },
+                "request_mapping": {
+                  "query": [
+                    {
+                      "value": {
+                        "skill_variable": "file_name"
+                      },
+                      "parameter": "title"
+                    },
+                    {
+                      "value": {
+                        "skill_variable": "file_name"
+                      },
+                      "parameter": "subtitle"
+                    }
+                  ]
+                },
+                "result_variable": "step_958_result_1"
+              }
+            },
+            "variable": "step_958",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "contains": [
+                        {
+                          "skill_variable": "title"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_395"
+                        },
+                        {
+                          "scalar": "yes"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_714"
+                        },
+                        {
+                          "value": "NPM",
+                          "from_entity": "entity_3922"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_113"
+                        },
+                        {
+                          "value": "NPM",
+                          "from_entity": "entity_20090"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_852"
+          },
+          {
+            "step": "step_852",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Here are the steps to take to fix the `npmrc` file:"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "user_defined": {
+                    "value": "${extension_return}",
+                    "request_type": "work",
+                    "template_name": "fixes"
+                  },
+                  "response_type": "user_defined",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Were you able to resolve your issue?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_958_result_1",
+                    "variable_path": "body.response"
+                  },
+                  "skill_variable": "extension_return"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_852",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "contains": [
+                        {
+                          "skill_variable": "title"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_395"
+                        },
+                        {
+                          "scalar": "yes"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_714"
+                        },
+                        {
+                          "value": "NPM",
+                          "from_entity": "entity_3922"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_113"
+                        },
+                        {
+                          "value": "NPM",
+                          "from_entity": "entity_20090"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_692"
+          },
+          {
+            "step": "step_692",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Here are the steps to take to fix your issue:"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "user_defined": {
+                    "value": "${extension_return}",
+                    "request_type": "work",
+                    "template_name": "fixes"
+                  },
+                  "response_type": "user_defined",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to see how to create an `nugetconfig` file?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_892_result_1",
+                    "variable_path": "body.response"
+                  },
+                  "skill_variable": "extension_return"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_692",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "contains": [
+                        {
+                          "skill_variable": "title"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_714"
+                        },
+                        {
+                          "value": "Nuget",
+                          "from_entity": "entity_3922"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_113"
+                        },
+                        {
+                          "value": "Nuget",
+                          "from_entity": "entity_20090"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_993"
+          },
+          {
+            "step": "step_993",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Sure, I'll get that for you now."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "Setting Nuget Configuration files for Jfrog"
+                  },
+                  "skill_variable": "file_name"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/search_ts",
+                "type": "integration_interaction",
+                "method": "GET",
+                "internal": {
+                  "spec_hash_id": "1a4c070562de466d4d49289798b9c4cfc513f74d9b21f09ac58f68883645b136",
+                  "catalog_item_id": "873bcc64-2107-461c-816d-7af1448f7979"
+                },
+                "request_mapping": {
+                  "query": [
+                    {
+                      "value": {
+                        "skill_variable": "file_name"
+                      },
+                      "parameter": "title"
+                    },
+                    {
+                      "value": {
+                        "skill_variable": "file_name"
+                      },
+                      "parameter": "subtitle"
+                    }
+                  ]
+                },
+                "result_variable": "step_993_result_1"
+              }
+            },
+            "variable": "step_993",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "contains": [
+                        {
+                          "skill_variable": "title"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_692"
+                        },
+                        {
+                          "scalar": "yes"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_714"
+                        },
+                        {
+                          "value": "Nuget",
+                          "from_entity": "entity_3922"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_113"
+                        },
+                        {
+                          "value": "Nuget",
+                          "from_entity": "entity_20090"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_983"
+          },
+          {
+            "step": "step_983",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Here is a list of fixes:"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "user_defined": {
+                    "value": "${extension_return}",
+                    "request_type": "work",
+                    "template_name": "fixes"
+                  },
+                  "response_type": "user_defined",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Were you able to resolve your issue?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_993_result_1",
+                    "variable_path": "body.response"
+                  },
+                  "skill_variable": "extension_return"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_983",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "contains": [
+                        {
+                          "skill_variable": "title"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_692"
+                        },
+                        {
+                          "scalar": "yes"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_714"
+                        },
+                        {
+                          "value": "Nuget",
+                          "from_entity": "entity_3922"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_113"
+                        },
+                        {
+                          "value": "Nuget",
+                          "from_entity": "entity_20090"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_188"
+          },
+          {
+            "step": "step_188",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Here are the steps to take to fix your issue:"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "user_defined": {
+                    "value": "${extension_return}",
+                    "request_type": "work",
+                    "template_name": "fixes"
+                  },
+                  "response_type": "user_defined",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to see how to create an `settings.xml` file for Maven?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_892_result_1",
+                    "variable_path": "body.response"
+                  },
+                  "skill_variable": "extension_return"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_188",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "contains": [
+                        {
+                          "skill_variable": "title"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_714"
+                        },
+                        {
+                          "value": "Maven",
+                          "from_entity": "entity_3922"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_113"
+                        },
+                        {
+                          "value": "Maven",
+                          "from_entity": "entity_20090"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_581"
+          },
+          {
+            "step": "step_581",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Sure, I'll get that for you now."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "Setting Maven Configuration files for Jfrog"
+                  },
+                  "skill_variable": "file_name"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/search_ts",
+                "type": "integration_interaction",
+                "method": "GET",
+                "internal": {
+                  "spec_hash_id": "1a4c070562de466d4d49289798b9c4cfc513f74d9b21f09ac58f68883645b136",
+                  "catalog_item_id": "873bcc64-2107-461c-816d-7af1448f7979"
+                },
+                "request_mapping": {
+                  "query": [
+                    {
+                      "value": {
+                        "skill_variable": "file_name"
+                      },
+                      "parameter": "title"
+                    },
+                    {
+                      "value": {
+                        "skill_variable": "file_name"
+                      },
+                      "parameter": "subtitle"
+                    }
+                  ]
+                },
+                "result_variable": "step_581_result_1"
+              }
+            },
+            "variable": "step_581",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "contains": [
+                        {
+                          "skill_variable": "title"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_188"
+                        },
+                        {
+                          "scalar": "yes"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_714"
+                        },
+                        {
+                          "value": "Maven",
+                          "from_entity": "entity_3922"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_113"
+                        },
+                        {
+                          "value": "Maven",
+                          "from_entity": "entity_20090"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_354"
+          },
+          {
+            "step": "step_354",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Here is the file you requested:"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "user_defined": {
+                    "value": "${extension_return}",
+                    "request_type": "work",
+                    "template_name": "fixes"
+                  },
+                  "response_type": "user_defined",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Were you able to resolve your issue?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_581_result_1",
+                    "variable_path": "body.response"
+                  },
+                  "skill_variable": "extension_return"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_354",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "contains": [
+                        {
+                          "skill_variable": "title"
+                        },
+                        {
+                          "scalar": "401",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_188"
+                        },
+                        {
+                          "scalar": "yes"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_714"
+                        },
+                        {
+                          "value": "Maven",
+                          "from_entity": "entity_3922"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_113"
+                        },
+                        {
+                          "value": "Maven",
+                          "from_entity": "entity_20090"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_185"
+          },
+          {
+            "step": "step_185",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What specifically do you need help with?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Blocked artifact",
+                      "value": {
+                        "input": {
+                          "text": "Blocked artifact"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Accessing a UPS Developed artifact",
+                      "value": {
+                        "input": {
+                          "text": "Accessing a UPS Developed artifact"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I didn't catch that. Select a valid option:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "entity_13105",
+              "max_tries": 3
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_185",
+            "condition": {
+              "contains": [
+                {
+                  "skill_variable": "title"
+                },
+                {
+                  "scalar": "403",
+                  "options": {
+                    "ignore_case": true
+                  }
+                }
+              ]
+            },
+            "next_step": "step_579"
+          },
+          {
+            "step": "step_579",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "One moment, searching for your answer..."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_185"
+                  },
+                  "skill_variable": "subtitle"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/search_ts",
+                "type": "integration_interaction",
+                "method": "GET",
+                "internal": {
+                  "spec_hash_id": "1a4c070562de466d4d49289798b9c4cfc513f74d9b21f09ac58f68883645b136",
+                  "catalog_item_id": "873bcc64-2107-461c-816d-7af1448f7979"
+                },
+                "request_mapping": {
+                  "query": [
+                    {
+                      "value": {
+                        "skill_variable": "title"
+                      },
+                      "parameter": "title"
+                    },
+                    {
+                      "value": {
+                        "skill_variable": "subtitle"
+                      },
+                      "parameter": "subtitle"
+                    }
+                  ]
+                },
+                "result_variable": "step_579_result_1"
+              }
+            },
+            "variable": "step_579",
+            "condition": {
+              "contains": [
+                {
+                  "skill_variable": "title"
+                },
+                {
+                  "scalar": "403",
+                  "options": {
+                    "ignore_case": true
+                  }
+                }
+              ]
+            },
+            "next_step": "step_108"
+          },
+          {
+            "step": "step_108",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Here is a list of steps to take to fix your issue:"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "user_defined": {
+                    "value": "${extension_return}",
+                    "request_type": "work",
+                    "template_name": "fixes"
+                  },
+                  "response_type": "user_defined",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Did this help you fix your issue?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_185"
+                  },
+                  "skill_variable": "subtitle"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/search_ts",
+                "type": "integration_interaction",
+                "method": "GET",
+                "internal": {
+                  "spec_hash_id": "1a4c070562de466d4d49289798b9c4cfc513f74d9b21f09ac58f68883645b136",
+                  "catalog_item_id": "873bcc64-2107-461c-816d-7af1448f7979"
+                },
+                "request_mapping": {
+                  "query": [
+                    {
+                      "value": {
+                        "skill_variable": "title"
+                      },
+                      "parameter": "title"
+                    },
+                    {
+                      "value": {
+                        "skill_variable": "subtitle"
+                      },
+                      "parameter": "subtitle"
+                    }
+                  ]
+                },
+                "result_variable": "step_108_result_1"
+              }
+            },
+            "variable": "step_108",
+            "condition": {
+              "contains": [
+                {
+                  "skill_variable": "title"
+                },
+                {
+                  "scalar": "403",
+                  "options": {
+                    "ignore_case": true
+                  }
+                }
+              ]
+            },
+            "next_step": "step_270"
+          },
+          {
+            "step": "step_270",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Hopefully you were able to resolve your issue. If not, would you like to submit a ticket?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": []
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_270",
+            "condition": {
+              "or": [
+                {
+                  "and": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_395"
+                        },
+                        {
+                          "scalar": "no"
+                        }
+                      ]
+                    },
+                    {
+                      "not": {
+                        "exists": {
+                          "variable": "step_852"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_692"
+                        },
+                        {
+                          "scalar": "no"
+                        }
+                      ]
+                    },
+                    {
+                      "not": {
+                        "exists": {
+                          "variable": "step_983"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_188"
+                        },
+                        {
+                          "scalar": "no"
+                        }
+                      ]
+                    },
+                    {
+                      "not": {
+                        "exists": {
+                          "variable": "step_354"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_868"
+          },
+          {
+            "step": "step_868",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "If you still need help, I can send a ticket for you.  Would you like to submit one?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": []
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_868",
+            "condition": {
+              "or": [
+                {
+                  "eq": [
+                    {
+                      "variable": "step_852"
+                    },
+                    {
+                      "scalar": "no"
+                    }
+                  ]
+                },
+                {
+                  "eq": [
+                    {
+                      "variable": "step_983"
+                    },
+                    {
+                      "scalar": "no"
+                    }
+                  ]
+                },
+                {
+                  "eq": [
+                    {
+                      "variable": "step_354"
+                    },
+                    {
+                      "scalar": "no"
+                    }
+                  ]
+                },
+                {
+                  "eq": [
+                    {
+                      "variable": "step_108"
+                    },
+                    {
+                      "scalar": "no"
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_906"
+          },
+          {
+            "step": "step_906",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Please provide a description of the issue you are having. If your issue involves code, attach the file below."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "user_defined": {
+                    "title": "${title}",
+                    "subtitle": "${subtitle}",
+                    "request_type": "work",
+                    "template_name": "upload"
+                  },
+                  "response_type": "user_defined",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Click the button below to submit your ticket."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Send ticket",
+                      "value": {
+                        "input": {
+                          "text": "Send ticket"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I didn't catch that. Select a valid option:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "entity_37464",
+              "max_tries": 3
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_906",
+            "condition": {
+              "or": [
+                {
+                  "eq": [
+                    {
+                      "variable": "step_270"
+                    },
+                    {
+                      "scalar": "yes"
+                    }
+                  ]
+                },
+                {
+                  "eq": [
+                    {
+                      "variable": "step_868"
+                    },
+                    {
+                      "scalar": "yes"
+                    }
+                  ]
+                },
+                {
+                  "eq": [
+                    {
+                      "variable": "step_945"
+                    },
+                    {
+                      "value": "Something Else",
+                      "from_entity": "entity_5114"
+                    }
+                  ]
+                },
+                {
+                  "eq": [
+                    {
+                      "variable": "step_113"
+                    },
+                    {
+                      "value": "Something Else",
+                      "from_entity": "entity_20090"
+                    }
+                  ]
+                },
+                {
+                  "eq": [
+                    {
+                      "variable": "step_714"
+                    },
+                    {
+                      "value": "Something Else",
+                      "from_entity": "entity_3922"
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_523"
+          },
+          {
+            "step": "step_523",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I have created a ticket for you and and expert will respond to you soon."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_523",
+            "condition": {
+              "exists": {
+                "variable": "step_906"
+              }
+            },
+            "next_step": "step_850"
+          },
+          {
+            "step": "step_850",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I'm glad you were able to resolve your issue and hopefully you found this experience helpful."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "time": 3000,
+                  "typing": true,
+                  "response_type": "pause"
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Thanks for using the UPS Developer Assistant."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_850"
+          }
+        ],
+        "title": "Jfrog questions",
+        "action": "action_5651",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_5651_intent_12978"
+        },
+        "variables": [
+          {
+            "title": "Here is a list of steps to take to fix your issue:",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_108",
+            "data_type": "yes_no"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_108_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Sorry, I’m not sure what tool you selected. Please select one of",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_113",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_142",
+            "data_type": "any"
+          },
+          {
+            "title": "What specifically do you need help with?",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_185",
+            "data_type": "any"
+          },
+          {
+            "title": "Here are the steps to take to fix your issue:",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_188",
+            "data_type": "yes_no"
+          },
+          {
+            "title": "",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_242",
+            "data_type": "any"
+          },
+          {
+            "title": "Hopefully you were able to resolve your issue. If not, would you",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_270",
+            "data_type": "yes_no"
+          },
+          {
+            "title": "Here is the file you requested:",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_354",
+            "data_type": "yes_no"
+          },
+          {
+            "title": "Here are the steps to take to fix your issue:",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_395",
+            "data_type": "yes_no"
+          },
+          {
+            "title": "No response",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_445",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_468",
+            "data_type": "any"
+          },
+          {
+            "title": "I have created a ticket for you and and expert will respond to y",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_523",
+            "data_type": "any"
+          },
+          {
+            "title": "What JFrog question do you have?",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_572",
+            "data_type": "any"
+          },
+          {
+            "title": "One moment, searching for your answer...",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_579",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_579_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Searching for the file...",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_581",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_581_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Here are the steps to take to fix your issue:",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_692",
+            "data_type": "yes_no"
+          },
+          {
+            "title": "Sure, I can help you with that.",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_714",
+            "data_type": "any"
+          },
+          {
+            "title": "I'm glad you were able to resolve your issue and hopefully you f",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_850",
+            "data_type": "any"
+          },
+          {
+            "title": "Here are the steps to take to fix the `npmrc` file:",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_852",
+            "data_type": "yes_no"
+          },
+          {
+            "title": "If you still need help, I can send a ticket for you. Would you l",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_868",
+            "data_type": "yes_no"
+          },
+          {
+            "title": "I\"ll look that up for you.",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_892",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_892_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Please provide a description of the issue you are having. If you",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_906",
+            "data_type": "any"
+          },
+          {
+            "title": "Sorry, I’m not sure what the question is. Are you looking for he",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_945",
+            "data_type": "any"
+          },
+          {
+            "title": "Sure, I'll get that for you now.",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_958",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_958_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Here is a list of fixes:",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_983",
+            "data_type": "yes_no"
+          },
+          {
+            "title": "Sure, I'll get that for you now.",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_993",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_993_result_1",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_5651-2",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "type": "standard",
+        "steps": [
+          {
+            "step": "step_572",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What ADO question do you have?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "question": {
+              "free_text": true
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_572",
+            "next_step": "step_794"
+          },
+          {
+            "step": "step_794",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Custom extension: SEND WIKI"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_794",
+            "condition": {
+              "contains": [
+                {
+                  "variable": "step_572"
+                },
+                {
+                  "scalar": "license",
+                  "options": {
+                    "ignore_case": true
+                  }
+                }
+              ]
+            },
+            "next_step": "step_579"
+          },
+          {
+            "step": "step_579",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Custom extension: Send wiki & check with team admin"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_579",
+            "condition": {
+              "and": [
+                {
+                  "contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "acces",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "project",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_171"
+          },
+          {
+            "step": "step_171",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Did wiki answer help?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_171",
+            "condition": {
+              "or": [
+                {
+                  "contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "access",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "project",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "contains": [
+                    {
+                      "variable": "step_572"
+                    },
+                    {
+                      "scalar": "license",
+                      "options": {
+                        "ignore_case": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_850"
+          },
+          {
+            "step": "step_850",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "RESOLVED"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_850",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_171"
+                },
+                {
+                  "scalar": "yes"
+                }
+              ]
+            },
+            "next_step": "step_978"
+          },
+          {
+            "step": "step_978",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Do SDGs have license admins?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_978",
+            "condition": {
+              "and": [
+                {
+                  "or": [
+                    {
+                      "contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "license",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "access",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "contains": [
+                        {
+                          "variable": "step_572"
+                        },
+                        {
+                          "scalar": "project",
+                          "options": {
+                            "ignore_case": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_171"
+                        },
+                        {
+                          "scalar": "no"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_382"
+          },
+          {
+            "step": "step_382",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "RESOLVED"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_382",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_978"
+                        },
+                        {
+                          "scalar": "yes"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_171"
+                        },
+                        {
+                          "scalar": "no"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_678"
+          },
+          {
+            "step": "step_678",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What part of ADO do you not have access to?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "question": {
+              "free_text": true
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_678",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_978"
+                        },
+                        {
+                          "scalar": "no"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_171"
+                        },
+                        {
+                          "scalar": "no"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "next_step": "step_307"
+          },
+          {
+            "step": "step_307",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I can send that email for you"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_307",
+            "condition": {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "exists": {
+                        "variable": "step_678"
+                      }
+                    },
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_978"
+                        },
+                        {
+                          "scalar": "no"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "eq": [
+                        {
+                          "variable": "step_171"
+                        },
+                        {
+                          "scalar": "no"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "title": "ADO questions ",
+        "action": "action_5651-2",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_5651_intent_12978-2"
+        },
+        "variables": [
+          {
+            "title": "Did wiki answer help?",
+            "variable": "step_171",
+            "data_type": "yes_no"
+          },
+          {
+            "title": "I can send that email for you",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_307",
+            "data_type": "any"
+          },
+          {
+            "title": "RESOLVED",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_382",
+            "data_type": "any"
+          },
+          {
+            "title": "What ADO question do you have?",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_572",
+            "data_type": "any"
+          },
+          {
+            "title": "Custom extension: Send wiki & check with team admin",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_579",
+            "data_type": "any"
+          },
+          {
+            "title": "What part of ADO do you not have access to?",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_678",
+            "data_type": "any"
+          },
+          {
+            "title": "Custom extension: SEND WIKI",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_794",
+            "data_type": "any"
+          },
+          {
+            "title": "RESOLVED",
+            "variable": "step_850",
+            "data_type": "any"
+          },
+          {
+            "title": "Do SDGs have license admins?",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_978",
+            "data_type": "yes_no"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "fallback",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "type": "standard",
+        "steps": [
+          {
+            "step": "step_001",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text": "I'm afraid I don't understand. Please rephrase your question."
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_001",
+            "condition": {
+              "lte": [
+                {
+                  "system_variable": "no_action_matches_count"
+                },
+                {
+                  "scalar": 3
+                }
+              ]
+            },
+            "next_step": "step_002"
+          },
+          {
+            "step": "step_002",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text": ""
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action_and_end",
+              "invoke_action": {
+                "action": "fallback",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_002_result_1"
+              }
+            },
+            "variable": "step_002",
+            "condition": {
+              "gt": [
+                {
+                  "system_variable": "no_action_matches_count"
+                },
+                {
+                  "scalar": 3
+                }
+              ]
+            }
+          }
+        ],
+        "title": "No matches",
+        "action": "anything_else",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "expression": "anything_else"
+        },
+        "variables": [
+          {
+            "title": "I am afraid I do not understand what you are asking, please re-p",
+            "variable": "step_001",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_002",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_002_result_1",
+            "data_type": "any"
+          }
+        ],
+        "disambiguation_opt_out": true
+      },
+      {
+        "type": "standard",
+        "steps": [
+          {
+            "step": "digression_failure",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text": "Sorry I couldn't confirm if you wanted to return to previous topic, let me connect to an agent."
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "connect_to_agent",
+              "response": {
+                "transfer_info": {
+                  "target": {}
+                },
+                "agent_available": {
+                  "message": "Let's send you to an available agent."
+                },
+                "agent_unavailable": {
+                  "message": "There are no agents available at this time. When one becomes available, we'll connect you."
+                },
+                "message_to_human_agent": ""
+              }
+            },
+            "variable": "digression_failure",
+            "condition": {
+              "eq": [
+                {
+                  "system_variable": "fallback_reason"
+                },
+                {
+                  "scalar": "Failed to confirm topic return"
+                }
+              ]
+            },
+            "next_step": "step_001"
+          },
+          {
+            "step": "step_001",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text": "I'm afraid I don't understand. I can connect you to an agent."
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "connect_to_agent",
+              "response": {
+                "transfer_info": {
+                  "target": {}
+                },
+                "agent_available": {
+                  "message": "Let's send you to an available agent."
+                },
+                "agent_unavailable": {
+                  "message": "There are no agents available at this time. When one becomes available, we'll connect you."
+                },
+                "message_to_human_agent": ""
+              }
+            },
+            "variable": "step_001",
+            "condition": {
+              "eq": [
+                {
+                  "system_variable": "fallback_reason"
+                },
+                {
+                  "scalar": "Step validation failed"
+                }
+              ]
+            },
+            "next_step": "step_002"
+          },
+          {
+            "step": "step_002",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text": "Sorry I couldn't assist you. I will connect you to an agent right away."
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "connect_to_agent",
+              "response": {
+                "transfer_info": {
+                  "target": {}
+                },
+                "agent_available": {
+                  "message": "Let's send you to an available agent."
+                },
+                "agent_unavailable": {
+                  "message": "There are no agents available at this time. When one becomes available, we'll connect you."
+                },
+                "message_to_human_agent": ""
+              }
+            },
+            "variable": "step_002",
+            "condition": {
+              "eq": [
+                {
+                  "system_variable": "fallback_reason"
+                },
+                {
+                  "scalar": "Agent requested"
+                }
+              ]
+            },
+            "next_step": "step_003"
+          },
+          {
+            "step": "step_003",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text": "I am afraid I do not understand what you are asking, let me connect you to an agent."
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "connect_to_agent",
+              "response": {
+                "transfer_info": {
+                  "target": {}
+                },
+                "agent_available": {
+                  "message": "Let's send you to an available agent."
+                },
+                "agent_unavailable": {
+                  "message": "There are no agents available at this time. When one becomes available, we'll connect you."
+                },
+                "message_to_human_agent": ""
+              }
+            },
+            "variable": "step_003",
+            "condition": {
+              "eq": [
+                {
+                  "system_variable": "fallback_reason"
+                },
+                {
+                  "scalar": "No action matches"
+                }
+              ]
+            },
+            "next_step": "step_004"
+          },
+          {
+            "step": "step_004",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text": "It seems this conversation would be best managed by a human agent. Let me connect you to one of our agents."
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "connect_to_agent",
+              "response": {
+                "transfer_info": {
+                  "target": {}
+                },
+                "agent_available": {
+                  "message": "Let's send you to an available agent."
+                },
+                "agent_unavailable": {
+                  "message": "There are no agents available at this time. When one becomes available, we'll connect you."
+                },
+                "message_to_human_agent": ""
+              }
+            },
+            "variable": "step_004",
+            "condition": {
+              "eq": [
+                {
+                  "system_variable": "fallback_reason"
+                },
+                {
+                  "scalar": "Danger word detected"
+                }
+              ]
+            },
+            "next_step": "step_005"
+          },
+          {
+            "step": "step_005",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text": "It seems this conversation would be best managed by a human agent. Let me connect you to one of our agents."
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "connect_to_agent",
+              "response": {
+                "transfer_info": {
+                  "target": {}
+                },
+                "agent_available": {
+                  "message": "Let's send you to an available agent."
+                },
+                "agent_unavailable": {
+                  "message": "There are no agents available at this time. When one becomes available, we'll connect you."
+                },
+                "message_to_human_agent": ""
+              }
+            },
+            "variable": "step_005",
+            "condition": {
+              "eq": [
+                {
+                  "system_variable": "fallback_reason"
+                },
+                {
+                  "scalar": "Profanity detected"
+                }
+              ]
+            }
+          }
+        ],
+        "title": "Fallback",
+        "action": "fallback",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "fallback_connect_to_agent"
+        },
+        "variables": [
+          {
+            "title": "Topic return failed",
+            "variable": "digression_failure",
+            "data_type": "any"
+          },
+          {
+            "title": "I'm afraid I don't understand. I can connect you to an agent.",
+            "variable": "step_001",
+            "data_type": "any"
+          },
+          {
+            "title": "Sorry I couldn't assist you. I will connect you to an agent righ",
+            "variable": "step_002",
+            "data_type": "any"
+          },
+          {
+            "title": "I am afraid I do not understand what you are asking, let me conn",
+            "variable": "step_003",
+            "data_type": "any"
+          },
+          {
+            "title": "It seems this conversation would be best managed",
+            "variable": "step_004",
+            "data_type": "any"
+          },
+          {
+            "title": "Profanity - It seems this conversation",
+            "variable": "step_005",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "run_always",
+        "disambiguation_opt_out": true
+      },
+      {
+        "type": "standard",
+        "steps": [
+          {
+            "step": "danger_word_detected",
+            "title": "Connect to agent",
+            "handlers": [],
+            "resolver": {
+              "type": "fallback"
+            },
+            "variable": "danger_word_detected_variable",
+            "condition": {
+              "entity": "danger_words"
+            },
+            "next_step": "profanity_detected"
+          },
+          {
+            "step": "profanity_detected",
+            "title": "Show warning",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Please use appropriate language when interacting with the assistant."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "max_hits",
+                "handler": "max_hits_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "max_hits": 2,
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "profanity_detected_variable",
+            "condition": {
+              "entity": "profane_words"
+            }
+          }
+        ],
+        "title": "Trigger word detected",
+        "action": "run_always",
+        "boosts": [],
+        "handlers": [],
+        "variables": [
+          {
+            "title": "Profanity detected",
+            "variable": "danger_word_detected_variable",
+            "data_type": "any"
+          },
+          {
+            "title": "Profane word detected",
+            "variable": "profanity_detected_variable",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "anything_else"
+      },
+      {
+        "type": "standard",
+        "steps": [
+          {
+            "step": "step_001",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Hi, I’m the UPS Developer Assistant, what can I help you with?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "JFrog ",
+                      "value": {
+                        "input": {
+                          "text": "JFrog "
+                        }
+                      }
+                    },
+                    {
+                      "label": "ADO",
+                      "value": {
+                        "input": {
+                          "text": "ADO"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I didn't catch that. Select a valid option:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "entity_24196",
+              "max_tries": 3
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_001",
+            "next_step": "step_927"
+          },
+          {
+            "step": "step_927",
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action_and_end",
+              "invoke_action": {
+                "action": "action_5651-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_927_result_1"
+              }
+            },
+            "variable": "step_927",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_001"
+                },
+                {
+                  "value": "ADO",
+                  "from_entity": "entity_24196"
+                }
+              ]
+            },
+            "next_step": "step_480"
+          },
+          {
+            "step": "step_480",
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action_and_end",
+              "invoke_action": {
+                "action": "action_5651",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_480_result_1"
+              }
+            },
+            "variable": "step_480",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_001"
+                },
+                {
+                  "value": "JFrog ",
+                  "from_entity": "entity_24196"
+                }
+              ]
+            }
+          }
+        ],
+        "title": "Greet customer",
+        "action": "welcome",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "expression": "welcome"
+        },
+        "variables": [
+          {
+            "title": "Hi, I’m the UPS Developer Assistant, what can I help you with?",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_001",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_480",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_480_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_927",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_927_result_1",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_5651",
+        "disambiguation_opt_out": true
+      }
+    ],
+    "intents": [
+      {
+        "intent": "action_5651_intent_12978",
+        "examples": [
+          {
+            "text": "JFrog"
+          },
+          {
+            "text": "JFrog issues"
+          },
+          {
+            "text": "JFrog questions"
+          }
+        ]
+      },
+      {
+        "intent": "action_5651_intent_12978-2",
+        "examples": [
+          {
+            "text": "ADO"
+          },
+          {
+            "text": "ADO issues"
+          },
+          {
+            "text": "ADO questions"
+          },
+          {
+            "text": "Azure"
+          },
+          {
+            "text": "Dev Ops"
+          }
+        ]
+      },
+      {
+        "intent": "fallback_connect_to_agent",
+        "examples": [
+          {
+            "text": "Agent help"
+          },
+          {
+            "text": "Call agent"
+          },
+          {
+            "text": "Can I connect to an agent?"
+          },
+          {
+            "text": "I would like to speak to a human"
+          },
+          {
+            "text": "I would like to speak to someone"
+          }
+        ],
+        "description": "Please transfer me to an agent"
+      }
+    ],
+    "entities": [
+      {
+        "entity": "danger_words",
+        "values": [],
+        "fuzzy_match": false
+      },
+      {
+        "entity": "entity_13105",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "Accessing a UPS Developed artifact",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Blocked artifact",
+            "synonyms": []
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_20090",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "Maven",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "NPM",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Nuget",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Something Else",
+            "synonyms": []
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_24196",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "ADO",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "JFrog ",
+            "synonyms": []
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_37464",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "Send ticket",
+            "synonyms": []
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_3922",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "Maven",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "NPM",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Nuget",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Something Else",
+            "synonyms": [
+              "*"
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_42329",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "401 Authentication Errors",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "403 Artifact Errors",
+            "synonyms": []
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_5114",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "JFrog 401 Authentication Errors",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "JFrog 403 Artifact Errors",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Something Else",
+            "synonyms": []
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "profane_words",
+        "values": [],
+        "fuzzy_match": false
+      },
+      {
+        "entity": "sys-yes-no",
+        "values": []
+      }
+    ],
+    "metadata": {
+      "api_version": {
+        "major_version": "v2",
+        "minor_version": "2018-11-08"
+      }
+    },
+    "variables": [
+      {
+        "title": "extension_return",
+        "privacy": {
+          "enabled": false
+        },
+        "variable": "extension_return",
+        "data_type": "any",
+        "description": ""
+      },
+      {
+        "title": "file_name",
+        "privacy": {
+          "enabled": false
+        },
+        "variable": "file_name",
+        "data_type": "string",
+        "description": ""
+      },
+      {
+        "title": "subtitle",
+        "privacy": {
+          "enabled": false
+        },
+        "variable": "subtitle",
+        "data_type": "string",
+        "description": ""
+      },
+      {
+        "title": "title",
+        "variable": "title",
+        "data_type": "string",
+        "description": ""
+      }
+    ],
+    "data_types": [],
+    "collections": [],
+    "counterexamples": [],
+    "system_settings": {
+      "variable": {
+        "format": {
+          "time": {
+            "pattern": "short"
+          },
+          "currency": {
+            "fraction_digits": 2
+          }
+        }
+      },
+      "off_topic": {
+        "enabled": true
+      },
+      "auto_learn": {
+        "apply": true
+      },
+      "topic_switch": {
+        "enabled": true,
+        "messages": {
+          "enable_confirmation": true,
+          "confirmation_failure": {
+            "generic": [
+              {
+                "values": [
+                  {
+                    "text_expression": {
+                      "concat": [
+                        {
+                          "scalar": "I'm sorry, I did not catch that, please confirm."
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "response_type": "text",
+                "selection_policy": "sequential"
+              }
+            ]
+          },
+          "confirmation_request": {
+            "generic": [
+              {
+                "values": [
+                  {
+                    "text_expression": {
+                      "concat": [
+                        {
+                          "scalar": "Do you want to continue with the previous topic: "
+                        },
+                        {
+                          "system_variable": "digressed_from"
+                        },
+                        {
+                          "scalar": "?"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "response_type": "text",
+                "selection_policy": "sequential"
+              },
+              {
+                "options": [
+                  {
+                    "label": "Yes",
+                    "value": {
+                      "input": {
+                        "text": "Yes"
+                      }
+                    }
+                  },
+                  {
+                    "label": "No",
+                    "value": {
+                      "input": {
+                        "text": "No"
+                      }
+                    }
+                  }
+                ],
+                "response_type": "option",
+                "repeat_on_reprompt": true
+              }
+            ]
+          }
+        },
+        "max_tries": 3
+      },
+      "generative_ai": {
+        "slot_filling": {
+          "enabled": false
+        }
+      },
+      "disambiguation": {
+        "prompt": "Did you mean:",
+        "enabled": true,
+        "randomize": true,
+        "max_suggestions": 5,
+        "suggestion_text_policy": "title",
+        "none_of_the_above_prompt": "None of the above",
+        "use_connect_to_support_prompt": "Connect to support",
+        "single_answer_clarification_prompt": "Something else"
+      },
+      "search_routing": {
+        "target": "conversational_search"
+      },
+      "spelling_auto_correct": true
+    },
+    "learning_opt_out": false
+  },
+  "description": "created for assistant 1af0bc47-b52f-4ecb-b6f1-8504d2f2fdfa",
+  "assistant_id": "1af0bc47-b52f-4ecb-b6f1-8504d2f2fdfa",
+  "workspace_id": "226ddff5-6e87-4304-993c-c5615f903503",
+  "dialog_settings": {},
+  "next_snapshot_version": "1",
+  "environment_id": "7edf5861-4076-4fb3-b41e-79a5d976c263"
+}
