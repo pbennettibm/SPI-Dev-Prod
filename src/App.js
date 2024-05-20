@@ -54,13 +54,13 @@ const App = ({ createWebChatInstance }) => {
   return (
     <div className="app">
       <img
-        src={"https://i.postimg.cc/pL5Jcw0P/topbar.png"}
+        src={"https://i.postimg.cc/nM8N4hnV/topbar-copy.png"}
         alt="Topbar"
         style={{ width: "100vw" }}
         className="top-bar"
       />
       <img
-        src={"https://i.postimg.cc/cL6Tfgqk/leftbar.png"}
+        src={"https://i.postimg.cc/mZcDypTK/leftbar-copy.png"}
         alt="Leftbar"
         className="left-bar"
       />
