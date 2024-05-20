@@ -47,13 +47,89 @@
     border-radius: 8px !important;
     font-size: 14px !important;
     margin-right: 8px !important;
-    border: solid !important;
+    border: solid lightgray !important;
+}
+
+.fixes:hover {
+    background-color: lightgray !important;
+}
+
+
+.fixes::-webkit-scrollbar {
+    width: 10px !important;
+}
+
+.fixes::-webkit-scrollbar-track {
+    box-shadow: none !important;
+    border: solid 3px transparent !important;
+}
+
+.fixes::-webkit-scrollbar-thumb {
+    /* border-radius: 4px !important;
+    background-color: black !important;
+    box-shadow: rgba(0, 0, 0, 0.11) 0px 1.6px 3.6px, rgba(0, 0, 0, 0.07) 0px 0.3px 0.9px !important; */
+    box-shadow: none !important;
+    border: solid 3px white !important;
+    margin-right: 2px !important;
+}
+
+.fixes::-webkit-scrollbar-thumb:hover {
+    /* border-radius: 4px !important;
+    background-color: black !important;
+    box-shadow: rgba(0, 0, 0, 0.11) 0px 1.6px 3.6px, rgba(0, 0, 0, 0.07) 0px 0.3px 0.9px !important; */
+    box-shadow: none !important;
+    border: solid 3px lightgray !important;
+    margin-right: 2px !important;
 }
 
 /* .fixes::-webkit-scrollbar {
     background-color: #aaa !important;
     color: gray !important;
 } */
+
+.fixes-selected {
+    min-width: 278px !important;
+    max-width: 278px !important;
+    min-height: 250px !important;
+    max-height: 250px !important;
+    overflow-y: auto !important;
+    background-color: #efefef !important;
+    padding: 8px !important;
+    margin-bottom: 8px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    margin-right: 8px !important;
+    border: solid  rgb(98, 100, 167) 3px !important;
+    /* color: white !important; */
+}
+
+.fixes-selected::-webkit-scrollbar {
+    width: 10px !important;
+}
+
+.fixes-selected::-webkit-scrollbar-track {
+    box-shadow: none !important;
+    border: solid 3px transparent !important;
+}
+
+.fixes-selected::-webkit-scrollbar-thumb {
+    /* border-radius: 4px !important;
+    background-color: black !important;
+    box-shadow: rgba(0, 0, 0, 0.11) 0px 1.6px 3.6px, rgba(0, 0, 0, 0.07) 0px 0.3px 0.9px !important; */
+    box-shadow: none !important;
+    border: solid 3px #efefef !important;
+    margin-right: 2px !important;
+}
+
+/* .fixes::-webkit-scrollbar-thumb:hover {
+    border-radius: 4px !important;
+    background-color: black !important;
+    box-shadow: rgba(0, 0, 0, 0.11) 0px 1.6px 3.6px, rgba(0, 0, 0, 0.07) 0px 0.3px 0.9px !important;
+} */
+
+.fixes-margin-end {
+    margin-right: 0px !important;
+}
 
 .fixes-long {
     min-width: 550px !important;
@@ -64,8 +140,8 @@
 .markdown code {
     display: inline-block !important;
     white-space: pre-wrap !important;
-    color: white !important;
-    background-color: black !important;
+    color: #E8912D !important;
+    background-color: #2C2E32 !important;
     /* margin: 4px !important; */
     width: fit-content !important;
     /* word-break: break-all !important; */
@@ -87,48 +163,11 @@
     margin-bottom: 4px !important;
 }
 
-.fixes-selected {
-    min-width: 278px !important;
-    max-width: 278px !important;
-    min-height: 250px !important;
-    max-height: 250px !important;
-    overflow-y: auto !important;
-    background-color: white !important;
-    padding: 8px !important;
-    margin-bottom: 8px !important;
-    border-radius: 8px !important;
-    font-size: 14px !important;
-    margin-right: 8px !important;
-    border: solid !important;
-    background-color: rgb(98, 100, 167) !important;
-    color: white !important;
-}
-
-.fixes:hover {
-    background-color: lightgray !important;
-}
-
-.fixes::-webkit-scrollbar-thumb:hover {
-    border-radius: 4px !important;
-    background-color: black !important;
-    box-shadow: rgba(0, 0, 0, 0.11) 0px 1.6px 3.6px, rgba(0, 0, 0, 0.07) 0px 0.3px 0.9px !important;
-}
-
-.fixes-selected::-webkit-scrollbar-thumb {
-    border-radius: 4px !important;
-    background-color: black !important;
-    box-shadow: rgba(0, 0, 0, 0.11) 0px 1.6px 3.6px, rgba(0, 0, 0, 0.07) 0px 0.3px 0.9px !important;
-}
-
-.fixes-margin-end {
-    margin-right: 0px !important;
-}
-
 .fixes-buttons-container {
     display: inline-flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
-    justify-content: center !important;
+    /* justify-content: center !important; */
     align-items: center !important;
     margin: 18px 0px !important;
     flex: 1 1 auto !important;

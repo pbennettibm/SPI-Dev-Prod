@@ -8,16 +8,16 @@ const Fixes = ({ instance, message }) => {
   const [fixes, setFixes] = useState([]);
   const [refPosition, setRefPosition] = useState([0, 0]);
   const [fileName, setFileName] = useState(null);
-  const [fileTitle, setFileTitle] = useState(null)
+  const [fileTitle, setFileTitle] = useState(null);
   const [isDisabled, setIsDisabled] = useState(false);
   const fixesRef = useRef(null);
   const elementRef = useRef([]);
   let messagesEndRef = useRef(null);
 
   useEffect(() => {
-    // console.log("Fixes 1 :", message.user_defined.value);
+    console.log("Fixes 1 :", message.user_defined.value);
     if (Object.keys(fixes).length === 0) {
-      console.log("Fixes :", message.user_defined.value.source_docs.fix);
+      // console.log("Fixes :", message.user_defined.value.source_docs.fix);
 
       const recursiveSearch = (fixes, strToAdd) => {
         const newFixes = fixes.reduce((acc, cur, idx) => {
@@ -39,7 +39,7 @@ const Fixes = ({ instance, message }) => {
 
               // update the download link state
               setFileName(window.URL.createObjectURL(fileBlob));
-              setFileTitle("settings.xml")
+              setFileTitle("settings.xml");
               newCur.item = "```" + cur.item + "```";
             }
             acc.push(newCur);
@@ -50,19 +50,22 @@ const Fixes = ({ instance, message }) => {
         return newFixes;
       };
 
-      let recursiveSearchResult = recursiveSearch(
-        message.user_defined.value.source_docs.fix,
-        ""
+      const objToReduce = Object.assign(
+        {},
+        message.user_defined.value.source_docs
       );
+
+      if (!objToReduce.fix) {
+        objToReduce.fix = objToReduce.Fix;
+      }
+
+      let recursiveSearchResult = recursiveSearch(objToReduce.fix, "");
 
       recursiveSearchResult = recursiveSearchResult.flat(Infinity);
 
       console.log("Setting recursive search result : ", recursiveSearchResult);
       setFixes(recursiveSearchResult);
-      setRefPosition([
-        0,
-        message.user_defined.value.source_docs.fix.length - 1,
-      ]);
+      setRefPosition([0, objToReduce.fix.length - 1]);
     }
   }, [fixes, message.user_defined.value]);
 
@@ -78,7 +81,7 @@ const Fixes = ({ instance, message }) => {
   useEffect(() => {
     const handler = (event) => {
       messagesEndRef.current = null;
-      setIsDisabled(true)
+      setIsDisabled(true);
     };
     instance.once({ type: "send", handler: handler });
   }, [instance]);
@@ -115,16 +118,16 @@ const Fixes = ({ instance, message }) => {
               <div className="fixes-inside-container" ref={fixesRef}>
                 {fixes.length > 0 &&
                   fixes.map((fix, index) => {
+                    console.log(fix.item.substring(0, 8))
                     return (
                       <div
-                        className={`markdown ${
-                          fixes.length < 2 ? "fixes-long" : ""
-                        }
-                        ${
-                          index === refPosition[0] ? "fixes-selected" : "fixes"
-                        }
+                        className={`markdown 
+                        ${index === refPosition[0] ? "fixes-selected" : "fixes"}
                         ${
                           fixes.length - 1 === index ? "fixes-margin-end" : ""
+                        }
+                        ${
+                          fixes.length === 1 && fix.item.substring(0, 8) === "```<?xml" ? "fixes-long" : ""
                         }`}
                         ref={(ref) => {
                           elementRef.current[index] = ref;
@@ -140,47 +143,67 @@ const Fixes = ({ instance, message }) => {
                     );
                   })}
               </div>
-              {fixes.length > 1 ? (
-                <div className="fixes-buttons-container">
-                  <button
-                    className="fixes-button"
-                    onClick={() => changePosition("minus")}
-                    disabled={isDisabled ? true : refPosition[0] !== 0 ? false : true}
-                  >
-                    Previous
-                  </button>
-                  {Object.keys(fixes).length > 0 &&
-                    fixes.map((fix, index) => {
-                      return (
-                        <div
-                          className={`${
-                            index === refPosition[0]
-                              ? "fixes-square-big"
-                              : "fixes-square"
-                          }`}
-                          onClick={() => changePosition(`${index}`)}
-                        >
-                          {index + 1}
+              {fixes.length > 0 && (
+                <>
+                  {fixes[0].item.substring(0, 8) !== "```<?xml" ? (
+                    <>
+                      {fixes.length > 1 && (
+                        <div className="fixes-buttons-container">
+                          <button
+                            className="fixes-button"
+                            onClick={() => changePosition("minus")}
+                            disabled={
+                              isDisabled
+                                ? true
+                                : refPosition[0] !== 0
+                                ? false
+                                : true
+                            }
+                          >
+                            Previous
+                          </button>
+                          {Object.keys(fixes).length > 0 &&
+                            fixes.map((fix, index) => {
+                              return (
+                                <div
+                                  className={`${
+                                    index === refPosition[0]
+                                      ? "fixes-square-big"
+                                      : "fixes-square"
+                                  }`}
+                                  onClick={() => changePosition(`${index}`)}
+                                >
+                                  {index + 1}
+                                </div>
+                              );
+                            })}
+                          <button
+                            className="fixes-button"
+                            onClick={() => changePosition("plus")}
+                            disabled={
+                              isDisabled
+                                ? true
+                                : refPosition[0] !== refPosition[1]
+                                ? false
+                                : true
+                            }
+                          >
+                            Next
+                          </button>
                         </div>
-                      );
-                    })}
-                  <button
-                    className="fixes-button"
-                    onClick={() => changePosition("plus")}
-                    disabled={isDisabled ? true : refPosition[0] !== refPosition[1] ? false : true}
-                  >
-                    Next
-                  </button>
-                </div>
-              ) : (
-                <a
-                  // this attribute sets the filename
-                  download={fileTitle}
-                  // link to the download URL
-                  href={fileName}
-                >
-                  <button className="fixes-button">Download</button>
-                </a>
+                      )}
+                    </>
+                  ) : (
+                    <a
+                      // this attribute sets the filename
+                      download={fileTitle}
+                      // link to the download URL
+                      href={fileName}
+                    >
+                      <button className="fixes-button">Download</button>
+                    </a>
+                  )}
+                </>
               )}
             </div>
           </div>

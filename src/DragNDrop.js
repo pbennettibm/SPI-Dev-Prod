@@ -188,19 +188,19 @@ const DragNDrop = ({ instance, message }) => {
                   display: "inline-block !important",
                 }}
               /> */}
-                <p>{files.length} file selected</p>
+                <p>{files.length} file attached</p>
               </div>
             )}
           </div>
         </section>
         </div>
-        {emailLink !== null && (
+        {/* {emailLink !== null && (
           <div className="email">
             <a href={emailLink} target="_blank" rel="noreferrer">
               Click here to see the email that was sent
             </a>
           </div>
-        )}
+        )} */}
       <div className="end" ref={messagesEndRef} />
     </>
   );

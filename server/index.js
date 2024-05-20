@@ -46,14 +46,14 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
       },
     });
 
-    let text = `I am having an issue with ${emailMessage.title || "an unknown question"} specific to ${emailMessage.subtitle || "a tool that doesn't appear in the UPS Developer Assistant"}.${emailMessage.subtitle ? "  I read through the wiki's steps and still am unable to fix my problem." : "  I did not read through the wiki's steps as I am asking a question that it doesn't have the answer to currently." }  Here is my issue:
+    let text = `The developer is having an issue with ${emailMessage.title || "a question outside of what the UPS Developer Assistant is able to handle"} specific to ${emailMessage.subtitle || "an unknown tool"}.${emailMessage.subtitle ? "  They read through the wiki's steps and are still unable to fix their problem." : "  They did not read through the wiki's steps as they are asking a question that it doesn't have the answer to currently." }  Here is the developer's issue:
 
     ${emailMessage.issue}
     
     `;
 
     if (fileStream) {
-      text += `I have attached my code to this email.
+      text += `The developer has also attached the code they are having an issue with to this email.
 
       `;
     }
