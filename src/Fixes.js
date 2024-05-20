@@ -33,6 +33,7 @@ const Fixes = ({ instance, message }) => {
           } else {
             let newCur = Object.assign({}, cur);
             if (cur.item.substring(0, 5) === "<?xml") {
+              console.log("Code");
               const fileBlob = new Blob([newCur.item], { type: "text/plain" });
               // this part avoids memory leaks
               if (fileName !== "") window.URL.revokeObjectURL(fileName);
@@ -55,17 +56,26 @@ const Fixes = ({ instance, message }) => {
         message.user_defined.value.source_docs
       );
 
-      if (!objToReduce.fix) {
-        objToReduce.fix = objToReduce.Fix;
+      // if (!objToReduce.fix) {
+      //   objToReduce.fix = objToReduce.Fix;
+      // }
+
+      let recursiveSearchResult;
+
+      if (objToReduce.fix.length > 0) {
+        recursiveSearchResult = recursiveSearch(objToReduce.fix, "");
+        recursiveSearchResult = recursiveSearchResult.flat(Infinity);
+      } else {
+        recursiveSearchResult = objToReduce.fix;
       }
-
-      let recursiveSearchResult = recursiveSearch(objToReduce.fix, "");
-
-      recursiveSearchResult = recursiveSearchResult.flat(Infinity);
 
       console.log("Setting recursive search result : ", recursiveSearchResult);
       setFixes(recursiveSearchResult);
       setRefPosition([0, objToReduce.fix.length - 1]);
+
+      // #2
+      // setFixes(message.user_defined.value.source_docs.fix);
+      // setRefPosition([0, message.user_defined.value.source_docs.fix.length - 1]);
     }
   }, [fixes, message.user_defined.value]);
 
@@ -118,16 +128,17 @@ const Fixes = ({ instance, message }) => {
               <div className="fixes-inside-container" ref={fixesRef}>
                 {fixes.length > 0 &&
                   fixes.map((fix, index) => {
-                    console.log(fix.item.substring(0, 8))
+                    console.log(fix.item.substring(0, 8));
                     return (
                       <div
                         className={`markdown 
                         ${index === refPosition[0] ? "fixes-selected" : "fixes"}
+                        ${fixes.length - 1 === index ? "fixes-margin-end" : ""}
                         ${
-                          fixes.length - 1 === index ? "fixes-margin-end" : ""
-                        }
-                        ${
-                          fixes.length === 1 && fix.item.substring(0, 8) === "```<?xml" ? "fixes-long" : ""
+                          fixes.length === 1 &&
+                          fix.item.substring(0, 8) === "```<?xml"
+                            ? "fixes-long"
+                            : ""
                         }`}
                         ref={(ref) => {
                           elementRef.current[index] = ref;
