@@ -2,12 +2,10 @@
   "components": {
     "schemas": {
       "outage": {
+        "type": "object",
         "properties": {
-          "type": "object",
-          "properties": {
-            "outage": {
-              "type": "object"
-            }
+          "outage": {
+            "type": "object"
           }
         }
       },
@@ -74,7 +72,7 @@
   },
   "servers": [
     {
-      "url": "https://ups-spi.1g7yg3uitql1.us-south.codeengine.appdomain.cloud/"
+      "url": "  "
     }
   ],
   "tags": []

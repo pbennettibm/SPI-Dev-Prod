@@ -104,6 +104,18 @@ app.get("/healthcheck", (req, res) => {
   res.send("Healthy!");
 });
 
+app.get("/outage", (req, res) => {
+  const typeMessage = req.query.type;
+
+  console.log(typeMessage, maintenence[typeMessage]);
+
+  if (typeMessage) {
+    return res.status(200).json({ outage: maintenence[typeMessage] });
+  } else {
+    return res.status(500).json({ error: "no parameter given"});
+  }
+});
+
 // Protect everything under /protected
 app.use(
   "/protected",
@@ -201,18 +213,6 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
   }
 
   sendMail(fileStream);
-});
-
-app.get("/outage", (req, res) => {
-  const typeMessage = req.query.type;
-
-  console.log(typeMessage, maintenence[typeMessage]);
-
-  if (typeMessage) {
-    return res.status(200).json({ outage: maintenence[typeMessage] });
-  } else {
-    return res.status(500).json({ error: "no parameter given"});
-  }
 });
 
 app.listen(port, () => {
