@@ -13,6 +13,15 @@ const DragNDrop = ({ instance, message }) => {
   let messagesEndRef = useRef(null);
 
   useEffect(() => {
+    if (messagesEndRef !== null) {
+      console.log("Scrolling to : ", messagesEndRef);
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 750);
+    }
+  }, [messagesEndRef]);
+
+  useEffect(() => {
     if (issue === "") {
       for (const elem of document.getElementsByClassName("cds--chat-btn")) {
         if (elem.textContent.includes("Send ticket")) {
