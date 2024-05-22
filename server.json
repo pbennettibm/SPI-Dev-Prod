@@ -5,7 +5,10 @@
         "type": "object",
         "properties": {
           "outage": {
-            "type": "object"
+            "type": "boolean"
+          },
+          "end": {
+            "type": "string"
           }
         }
       },
@@ -72,7 +75,7 @@
   },
   "servers": [
     {
-      "url": "  "
+      "url": "https://ups-spi.1g7yg3uitql1.us-south.codeengine.appdomain.cloud/"
     }
   ],
   "tags": []

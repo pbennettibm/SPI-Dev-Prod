@@ -107,12 +107,27 @@ app.get("/healthcheck", (req, res) => {
 app.get("/outage", (req, res) => {
   const typeMessage = req.query.type;
 
+  const todaysDate = new Date().getTime();
+
   console.log(typeMessage, maintenence[typeMessage]);
 
   if (typeMessage) {
-    return res.status(200).json({ outage: maintenence[typeMessage] });
+    let date1 = new Date(maintenence[typeMessage].start).getTime();
+    let date2 = new Date(maintenence[typeMessage].end).getTime();
+
+    console.log("today", todaysDate, "first", date1, "last", date2);
+    console.log();
+
+    if (date1 <= todaysDate && todaysDate <= date2) {
+      return res
+        .status(200)
+        .json({ outage: true, end: maintenence[typeMessage].end });
+    } else {
+      return res.status(200).json({ outage: false });
+    }
+    // return res.status(200).json({ outage: maintenence[typeMessage] });
   } else {
-    return res.status(500).json({ error: "no parameter given"});
+    return res.status(500).json({ error: "no parameter given" });
   }
 });
 
