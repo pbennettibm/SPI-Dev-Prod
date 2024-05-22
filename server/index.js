@@ -17,7 +17,7 @@ console.log("node_env", process.env.NODE_ENV);
 if (process.env.NODE_ENV !== "staging") {
   port = 3000;
 } else {
-  port = 8080;
+  port = 8443;
 }
 
 const storage = multer.diskStorage({
