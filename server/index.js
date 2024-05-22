@@ -6,8 +6,19 @@ const app = express();
 const dotenv = require("dotenv");
 const multer = require("multer");
 const fs = require("fs");
-// const upload = multer({ dest: './uploads/' })
+const session = require("express-session");
+const passport = require("passport");
+const appID = require("ibmcloud-appid");
 dotenv.config();
+
+let port;
+
+console.log("node_env", process.env.NODE_ENV);
+if (process.env.NODE_ENV !== "staging") {
+  port = 3000;
+} else {
+  port = 8080;
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -19,22 +30,102 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-const port = 8443;
+const WebAppStrategy = appID.WebAppStrategy;
 
-app.use(express.static(path.join(__dirname, "../build")));
+const CALLBACK_URL = "/ibm/cloud/appid/callback";
+
+app.use(express.static(path.join(__dirname, "../landing")));
 app.use(morgan("combined"));
 app.use(express.json());
 
+// Setup express application to use express-session middleware
+// Must be configured with proper session storage for production
+// environments. See https://github.com/expressjs/session for
+// additional documentation
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    proxy: true,
+  })
+);
+
+// Configure express application to use passportjs
+app.use(passport.initialize());
+app.use(passport.session());
+
+let webAppStrategy;
+
+if (process.env.NODE_ENV !== "staging") {
+  webAppStrategy = new WebAppStrategy({
+    clientId: process.env.CLIENT_ID,
+    oauthServerUrl: process.env.OAUTH_SERVER_URL,
+    profilesUrl: process.env.PROFILES_URL,
+    secret: process.env.APP_ID_SECRET,
+    tenantId: process.env.TENANT_ID,
+    redirectUri: "http://localhost:3000/ibm/cloud/appid/callback",
+  });
+} else {
+  webAppStrategy = new WebAppStrategy({
+    clientId: process.env.CLIENT_ID,
+    oauthServerUrl: process.env.OAUTH_SERVER_URL,
+    profilesUrl: process.env.PROFILES_URL,
+    secret: process.env.APP_ID_SECRET,
+    tenantId: process.env.TENANT_ID,
+    redirectUri: process.env.REDIRECT_URI,
+  });
+}
+
+passport.use(webAppStrategy);
+
+// Configure passportjs with user serialization/deserialization. This is required
+// for authenticated session persistence accross HTTP requests. See passportjs docs
+// for additional information http://passportjs.org/docs
+passport.serializeUser((user, cb) => cb(null, user));
+passport.deserializeUser((obj, cb) => cb(null, obj));
+
+// Callback to finish the authorization process. Will retrieve access and identity tokens/
+// from AppID service and redirect to either (in below order)
+// 1. the original URL of the request that triggered authentication, as persisted in HTTP session under WebAppStrategy.ORIGINAL_URL key.
+// 2. successRedirect as specified in passport.authenticate(name, {successRedirect: "...."}) invocation
+// 3. application root ("/")
+app.get(
+  CALLBACK_URL,
+  passport.authenticate(WebAppStrategy.STRATEGY_NAME, {
+    failureRedirect: "/error",
+    session: false,
+  })
+);
+
+app.get("/healthcheck", (req, res) => {
+  res.send("Healthy!");
+});
+
+// Protect everything under /protected
+app.use(
+  "/protected",
+  passport.authenticate(WebAppStrategy.STRATEGY_NAME, { session: false })
+);
+
 console.log(process.env.EMAIL_HOST);
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+app.get("/protected", (req, res) => {
+  app.use(express.static(path.join(__dirname, "../build")));
+  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
+
+app.use(
+  "/email",
+  passport.authenticate(WebAppStrategy.STRATEGY_NAME, { session: false })
+);
 
 app.post("/email", upload.single("fileUpload"), (req, res) => {
   const emailMessage = req.body;
   const emailFile = req.file;
   console.log(emailMessage, emailFile);
+
+  console.log("Auth", req.user.email)
 
   const sendMail = (fileStream) => {
     const transporter = nodemailer.createTransport({
@@ -46,7 +137,14 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
       },
     });
 
-    let text = `The developer is having an issue with ${emailMessage.title || "a question outside of what the UPS Developer Assistant is able to handle"} specific to ${emailMessage.subtitle || "an unknown tool"}.${emailMessage.subtitle ? "  They read through the wiki's steps and are still unable to fix their problem." : "  They did not read through the wiki's steps as they are asking a question that it doesn't have the answer to currently." }  Here is the developer's issue:
+    let text = `The developer is having an issue with ${
+      emailMessage.title ||
+      "a question outside of what the UPS Developer Assistant is able to handle"
+    } specific to ${emailMessage.subtitle || "an unknown tool"}.${
+      emailMessage.subtitle
+        ? "  They read through the wiki's steps and are still unable to fix their problem."
+        : "  They did not read through the wiki's steps as they are asking a question that it doesn't have the answer to currently."
+    }  Here is the developer's issue:
 
     ${emailMessage.issue}
     
@@ -61,9 +159,11 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
     // text += `Can you please help?`;
 
     const options = {
-      from: "brian.carroll25@ethereal.email",
-      to: ["brian.carroll25@ethereal.email"],
-      subject: `${emailMessage.title || "Unknown"}-${emailMessage.subtitle || "Unknown"}`,
+      from: req.user.email,
+      to: "brian.carroll25@ethereal.email",
+      subject: `${emailMessage.title || "Unknown Error"}-${
+        emailMessage.subtitle || "Unknown Question"
+      }`,
       text: text,
     };
 
