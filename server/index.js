@@ -9,6 +9,7 @@ const fs = require("fs");
 const session = require("express-session");
 const passport = require("passport");
 const appID = require("ibmcloud-appid");
+var maintenence = require("./maintenence/alerts.json");
 dotenv.config();
 
 let port;
@@ -37,6 +38,7 @@ const CALLBACK_URL = "/ibm/cloud/appid/callback";
 app.use(express.static(path.join(__dirname, "../landing")));
 app.use(morgan("combined"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Setup express application to use express-session middleware
 // Must be configured with proper session storage for production
@@ -125,7 +127,7 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
   const emailFile = req.file;
   console.log(emailMessage, emailFile);
 
-  console.log("Auth", req.user.email)
+  console.log("Auth", req.user.email);
 
   const sendMail = (fileStream) => {
     const transporter = nodemailer.createTransport({
@@ -199,6 +201,18 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
   }
 
   sendMail(fileStream);
+});
+
+app.get("/outage", (req, res) => {
+  const typeMessage = req.query.type;
+
+  console.log(typeMessage, maintenence[typeMessage]);
+
+  if (typeMessage) {
+    return res.status(200).json({ outage: maintenence[typeMessage] });
+  } else {
+    return res.status(500).json({ error: "no parameter given"});
+  }
 });
 
 app.listen(port, () => {

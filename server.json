@@ -1,0 +1,81 @@
+{
+  "components": {
+    "schemas": {
+      "outage": {
+        "properties": {
+          "type": "object",
+          "properties": {
+            "outage": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "description": "UPS Developer Assistant Server API (Proof of Concept)",
+    "title": "UPS Developer Assistant Server API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.0.3",
+  "paths": {
+    "/healthcheck": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": { "application/json": { "schema": {} } },
+            "description": "Successful response"
+          }
+        },
+        "summary": "is this API alive and available"
+      }
+    },
+    "/outage": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/outage" }
+              }
+            },
+            "description": "Successful response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/error" }
+              }
+            },
+            "description": "Validation error"
+          }
+        },
+        "summary": "Search for jfrog or ado"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ups-spi.1g7yg3uitql1.us-south.codeengine.appdomain.cloud/"
+    }
+  ],
+  "tags": []
+}
