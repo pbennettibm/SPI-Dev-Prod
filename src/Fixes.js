@@ -9,6 +9,7 @@ const Fixes = ({ instance, message }) => {
   const [refPosition, setRefPosition] = useState([0, 0]);
   const [fileName, setFileName] = useState(null);
   const [fileTitle, setFileTitle] = useState(null);
+  const [fileList, setFileList] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
   const fixesRef = useRef(null);
   const elementRef = useRef([]);
@@ -72,6 +73,10 @@ const Fixes = ({ instance, message }) => {
       console.log("Setting recursive search result : ", recursiveSearchResult);
       setFixes(recursiveSearchResult);
       setRefPosition([0, objToReduce.fix.length - 1]);
+
+      if (objToReduce.links.length > 0) {
+        setFileList(objToReduce.links);
+      }
 
       // #2
       // setFixes(message.user_defined.value.source_docs.fix);
@@ -218,6 +223,14 @@ const Fixes = ({ instance, message }) => {
               )}
             </div>
           </div>
+          {fileList.length > 0 &&
+            fileList.map((indLink) => {
+              return (
+                <div>
+                  <indLink />
+                </div>
+              );
+            })}
           <div className="end" ref={messagesEndRef} />
         </>
       )}

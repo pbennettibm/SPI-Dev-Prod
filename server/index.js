@@ -112,16 +112,18 @@ app.get("/outage", (req, res) => {
   console.log(typeMessage, maintenence[typeMessage]);
 
   if (typeMessage) {
-    let date1 = new Date(maintenence[typeMessage].start).getTime();
-    let date2 = new Date(maintenence[typeMessage].end).getTime();
+    let date1 = new Date(maintenence[typeMessage].start)
+    let date2 = new Date(maintenence[typeMessage].end)
 
     console.log("today", todaysDate, "first", date1, "last", date2);
     console.log();
 
-    if (date1 <= todaysDate && todaysDate <= date2) {
+    if (date1.getTime() <= todaysDate && todaysDate <= date2.getTime()) {
+      let readableDate = date2.toLocaleString('default', { month: 'long' });
+      readableDate += ` ${date2.getDate()}, ${date2.getFullYear()}`
       return res
         .status(200)
-        .json({ outage: true, end: maintenence[typeMessage].end });
+        .json({ outage: true, end: readableDate });
     } else {
       return res.status(200).json({ outage: false });
     }
