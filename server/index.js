@@ -112,18 +112,16 @@ app.get("/outage", (req, res) => {
   console.log(typeMessage, maintenence[typeMessage]);
 
   if (typeMessage) {
-    let date1 = new Date(maintenence[typeMessage].start)
-    let date2 = new Date(maintenence[typeMessage].end)
+    let date1 = new Date(maintenence[typeMessage].start);
+    let date2 = new Date(maintenence[typeMessage].end);
 
     console.log("today", todaysDate, "first", date1, "last", date2);
     console.log();
 
     if (date1.getTime() <= todaysDate && todaysDate <= date2.getTime()) {
-      let readableDate = date2.toLocaleString('default', { month: 'long' });
-      readableDate += ` ${date2.getDate()}, ${date2.getFullYear()}`
-      return res
-        .status(200)
-        .json({ outage: true, end: readableDate });
+      let readableDate = date2.toLocaleString("default", { month: "long" });
+      readableDate += ` ${date2.getDate()}, ${date2.getFullYear()}`;
+      return res.status(200).json({ outage: true, end: readableDate });
     } else {
       return res.status(200).json({ outage: false });
     }
@@ -171,8 +169,16 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
     let text = `The developer is having an issue with ${
       emailMessage.title ||
       "a question outside of what the UPS Developer Assistant is able to handle"
-    } specific to ${emailMessage.subtitle || "an unknown tool"}.${
-      emailMessage.subtitle
+    } specific to ${
+      emailMessage.subtitle !== "Something Else"
+        ? emailMessage.subtitle
+          ? emailMessage.subtitle
+          : "an unknown tool"
+        : "an unknown tool"
+    }.${
+      emailMessage.subtitle === "Accessing a UPS Developed artifact"
+        ? "  They are requesting access to a UPS Developed artifact."
+        : emailMessage.subtitle
         ? "  They read through the wiki's steps and are still unable to fix their problem."
         : "  They did not read through the wiki's steps as they are asking a question that it doesn't have the answer to currently."
     }  Here is the developer's issue:

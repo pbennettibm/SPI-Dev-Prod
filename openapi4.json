@@ -1,0 +1,198 @@
+{
+  "components": {
+    "schemas": {
+      "TS_OUT": {
+        "properties": {
+          "code": { "type": "integer" },
+          "message": { "type": "string" },
+          "response": { "type": "object" }
+        },
+        "type": "object"
+      },
+      "T_OUT": {
+        "properties": {
+          "code": { "type": "integer" },
+          "message": { "type": "string" },
+          "response": { "type": "object" }
+        },
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "detail": {
+            "properties": {
+              "<location>": {
+                "properties": {
+                  "<field_name>": {
+                    "items": { "type": "string" },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "message": { "type": "string" }
+        },
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "UPS Developer Assistant API (Proof of Concept)",
+    "title": "UPS Developer Assistant API",
+    "version": "0.4.1"
+  },
+  "openapi": "3.0.3",
+  "paths": {
+    "/alive": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": { "application/json": { "schema": {} } },
+            "description": "Successful response"
+          }
+        },
+        "summary": "is this API alive and available"
+      }
+    },
+    "/search_rag": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TS_OUT" }
+              }
+            },
+            "description": "Successful response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ValidationError" }
+              }
+            },
+            "description": "Validation error"
+          }
+        },
+        "summary": "RAG search Original"
+      }
+    },
+    "/search_rag_wxd": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TS_OUT" }
+              }
+            },
+            "description": "Successful response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ValidationError" }
+              }
+            },
+            "description": "Validation error"
+          }
+        },
+        "summary": "RAG search (WXD AT)"
+      }
+    },
+    "/search_t": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "title",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/T_OUT" }
+              }
+            },
+            "description": "Successful response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ValidationError" }
+              }
+            },
+            "description": "Validation error"
+          }
+        },
+        "summary": "Lexical (exact) search on title field matching on phrase e.g. word order is important"
+      }
+    },
+    "/search_ts": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "title",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "subtitle",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TS_OUT" }
+              }
+            },
+            "description": "Successful response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ValidationError" }
+              }
+            },
+            "description": "Validation error"
+          }
+        },
+        "summary": "Search on title and subtitle, return only single best match doc (contains fix steps)"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ups-dev-va-api-test.1g5zmcq40o2d.us-south.codeengine.appdomain.cloud/"
+    }
+  ],
+  "tags": []
+}

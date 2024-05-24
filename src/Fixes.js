@@ -10,6 +10,7 @@ const Fixes = ({ instance, message }) => {
   const [fileName, setFileName] = useState(null);
   const [fileTitle, setFileTitle] = useState(null);
   const [fileList, setFileList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(null);
   const [isDisabled, setIsDisabled] = useState(false);
   const fixesRef = useRef(null);
   const elementRef = useRef([]);
@@ -18,8 +19,6 @@ const Fixes = ({ instance, message }) => {
   useEffect(() => {
     console.log("Fixes 1 :", message.user_defined.value);
     if (Object.keys(fixes).length === 0) {
-      // console.log("Fixes :", message.user_defined.value.source_docs.fix);
-
       const recursiveSearch = (fixes, strToAdd) => {
         const newFixes = fixes.reduce((acc, cur, idx) => {
           if (cur.subitem) {
@@ -43,8 +42,10 @@ const Fixes = ({ instance, message }) => {
               setFileName(window.URL.createObjectURL(fileBlob));
               setFileTitle("settings.xml");
               newCur.item = "```" + cur.item + "```";
+              acc.push(newCur);
+            } else if (!message.user_defined.search || cur.item.includes(message.user_defined.search)) {
+              acc.push(newCur);
             }
-            acc.push(newCur);
             return acc;
           }
         }, []);
@@ -73,16 +74,20 @@ const Fixes = ({ instance, message }) => {
       console.log("Setting recursive search result : ", recursiveSearchResult);
       setFixes(recursiveSearchResult);
       setRefPosition([0, objToReduce.fix.length - 1]);
-
-      if (objToReduce.links.length > 0) {
-        setFileList(objToReduce.links);
+      
+      if (objToReduce.links) {
+        if (objToReduce.links.length > 0) {
+          setFileList(objToReduce.links);
+        }
       }
-
-      // #2
-      // setFixes(message.user_defined.value.source_docs.fix);
-      // setRefPosition([0, message.user_defined.value.source_docs.fix.length - 1]);
+      
+      // #2 todo - filter for category
+      if (message.user_defined.search) {
+        console.log(message.user_defined.search);
+        setSearchTerm(message.user_defined.search);
+      } 
     }
-  }, [fixes, message.user_defined.value]);
+  }, [fixes, message]);
 
   useEffect(() => {
     console.log("Element ref :", elementRef, "Ref pos :", refPosition);
@@ -120,9 +125,13 @@ const Fixes = ({ instance, message }) => {
     }
   };
 
-  const openModal = (e) => {
-    console.log("Modal : ", e);
-  };
+  const LinkRenderer = (props) => {
+    return (
+      <a href={props.href} target="_blank" rel="noreferrer">
+        {props.children}
+      </a>
+    );
+  }
 
   return (
     <>
@@ -133,10 +142,10 @@ const Fixes = ({ instance, message }) => {
               <div className="fixes-inside-container" ref={fixesRef}>
                 {fixes.length > 0 &&
                   fixes.map((fix, index) => {
-                    console.log(fix.item.substring(0, 8));
-                    return (
-                      <div
-                        className={`markdown 
+                    if (!searchTerm || fix.item.includes(searchTerm)) {
+                      return (
+                        <div
+                          className={`markdown 
                         ${index === refPosition[0] ? "fixes-selected" : "fixes"}
                         ${fixes.length - 1 === index ? "fixes-margin-end" : ""}
                         ${
@@ -145,18 +154,21 @@ const Fixes = ({ instance, message }) => {
                             ? "fixes-long"
                             : ""
                         }`}
-                        ref={(ref) => {
-                          elementRef.current[index] = ref;
-                        }}
-                        onClick={() => changePosition(`${index}`)}
-                      >
-                        <Markdown
-                          components={{ a: openModal }}
-                          rehypePlugins={[rehypeRaw]}
-                          children={fix.item}
-                        />
-                      </div>
-                    );
+                          ref={(ref) => {
+                            elementRef.current[index] = ref;
+                          }}
+                          onClick={() => changePosition(`${index}`)}
+                        >
+                          <Markdown
+                            components={{ a: LinkRenderer}}
+                            rehypePlugins={[rehypeRaw]}
+                            children={fix.item}
+                          />
+                        </div>
+                      );
+                    } else {
+                      return <></>;
+                    }
                   })}
               </div>
               {fixes.length > 0 && (
