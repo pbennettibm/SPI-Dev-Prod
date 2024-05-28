@@ -132,7 +132,7 @@ app.get("/outage", (req, res) => {
       return res
         .status(200)
         .json({ outage: true, start: readableStartDate, end: readableEndDate });
-    } else if (date1.getTime() > todaysDate && todaysDate > date2.getTime()) {
+    } else if (date1.getTime() > todaysDate && todaysDate < date2.getTime()) {
       return res
         .status(200)
         .json({
