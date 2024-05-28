@@ -112,38 +112,41 @@ app.get("/outage", (req, res) => {
   console.log(typeMessage, maintenence[typeMessage]);
 
   if (typeMessage) {
-      let date1 = new Date(maintenence[typeMessage].start);
-      let date2 = new Date(maintenence[typeMessage].end);
+    let date1 = new Date(maintenence[typeMessage].start);
+    let date2 = new Date(maintenence[typeMessage].end);
 
-      console.log("today", todaysDate, "first", date1, "last", date2);
-      console.log();
+    console.log("today", todaysDate, "first", date1, "last", date2);
+    console.log();
 
-      let readableStartDate = date1.toLocaleString("default", {
-        month: "long",
-      });
-      readableStartDate += ` ${date1.getDate()}, ${date2.getFullYear()}`;
+    let readableStartDate = date1.toLocaleString("default", {
+      month: "long",
+    });
+    readableStartDate += ` ${date1.getDate()}, ${date2.getFullYear()}`;
 
-      let readableEndDate = date2.toLocaleString("default", {
-        month: "long",
-      });
-      readableEndDate += ` ${date2.getDate()}, ${date2.getFullYear()}`;
+    let readableEndDate = date2.toLocaleString("default", {
+      month: "long",
+    });
+    readableEndDate += ` ${date2.getDate()}, ${date2.getFullYear()}`;
 
-      if (date1.getTime() <= todaysDate && todaysDate <= date2.getTime()) {
-        return res
-          .status(200)
-          .json({ outage: true, start: readableStartDate, end: readableEndDate });
-      } else if (date1.getTime() > todaysDate && todaysDate > date2.getTime()) {
-        return res
-          .status(200)
-          .json({ outage: false, start: readableStartDate, end: readableEndDate });
-      } else {
-        return res.status(200).json({ outage: false, start: null, end: null });
-      }
-
-      // return res.status(200).json({ outage: maintenence[typeMessage] });
+    if (date1.getTime() <= todaysDate && todaysDate <= date2.getTime()) {
+      return res
+        .status(200)
+        .json({ outage: true, start: readableStartDate, end: readableEndDate });
+    } else if (date1.getTime() > todaysDate && todaysDate > date2.getTime()) {
+      return res
+        .status(200)
+        .json({
+          outage: false,
+          start: readableStartDate,
+          end: readableEndDate,
+        });
     } else {
-      return res.status(500).json({ error: "no parameter given" });
+      return res.status(200).json({ outage: false, start: null, end: null });
     }
+
+    // return res.status(200).json({ outage: maintenence[typeMessage] });
+  } else {
+    return res.status(500).json({ error: "no parameter given" });
   }
 });
 
