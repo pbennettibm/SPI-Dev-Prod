@@ -220,3 +220,11 @@
 .end {
     height: 1px;
 }
+
+.blue-button {
+    color: blue !important;
+}
+
+.hidden-buttons {
+    display: none !important;
+}

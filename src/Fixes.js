@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Accordion, AccordionItem } from "carbon-components-react";
 import "./Fixes.css";
 import PropTypes from "prop-types";
 import Markdown from "react-markdown";
@@ -12,6 +13,7 @@ const Fixes = ({ instance, message }) => {
   const [fileList, setFileList] = useState([]);
   const [searchTerm, setSearchTerm] = useState(null);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isLinksVisible, setIsLinksVisible] = useState(false);
   const fixesRef = useRef(null);
   const elementRef = useRef([]);
   let messagesEndRef = useRef(null);
@@ -134,6 +136,16 @@ const Fixes = ({ instance, message }) => {
         {props.children}
       </a>
     );
+  };
+
+  const showLinks = () => {
+    setIsLinksVisible(!isLinksVisible);
+    if (messagesEndRef !== null) {
+      console.log("Scrolling to : ", messagesEndRef);
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+    }
   };
 
   return (
@@ -262,15 +274,31 @@ const Fixes = ({ instance, message }) => {
           </div>
           {fileList.length > 0 && (
             <>
-              <div>Click the link(s) below to read the wiki(s): </div>
-              {/* <br /> */}
+              <span>
+                (click{" "}
+                <span className="blue-button" onClick={() => showLinks()}>
+                  here
+                </span>{" "}
+                to {isLinksVisible ? "hide" : "show"} source documents)
+              </span>
             </>
           )}
-          {fileList.length > 0 &&
-            fileList.map((indLink) => {
+          {fileList.length > 0 && (
+            <>
+            <br />
+            <br />
+            {fileList.map((indLink) => {
               console.log(indLink);
-              return <div dangerouslySetInnerHTML={{ __html: indLink }} />;
+              return (
+                <div
+                  className={isLinksVisible ? "" : "hidden-buttons"}
+                  dangerouslySetInnerHTML={{ __html: indLink }}
+                />
+              );
             })}
+            </>
+            )}
+          {/* <br /> */}
           <div className="end" ref={messagesEndRef} />
         </>
       )}
