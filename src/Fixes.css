@@ -177,8 +177,9 @@
 
 .fixes-button {
     max-width: 17.5rem !important;
+    width: 17.5rem !important;
     height: 2rem !important;
-    width: 100% !important;
+    /* width: 100% !important; */
     /* vertical-align: middle !important; */
     justify-content: center !important;
     /* display: inline-flex !important; */

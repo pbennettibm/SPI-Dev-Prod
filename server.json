@@ -7,6 +7,9 @@
           "outage": {
             "type": "boolean"
           },
+          "start": {
+            "type": "string"
+          },
           "end": {
             "type": "string"
           }

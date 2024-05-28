@@ -43,7 +43,10 @@ const Fixes = ({ instance, message }) => {
               setFileTitle("settings.xml");
               newCur.item = "```" + cur.item + "```";
               acc.push(newCur);
-            } else if (!message.user_defined.search || cur.item.includes(message.user_defined.search)) {
+            } else if (
+              !message.user_defined.search ||
+              cur.item.includes(message.user_defined.search)
+            ) {
               acc.push(newCur);
             }
             return acc;
@@ -74,18 +77,18 @@ const Fixes = ({ instance, message }) => {
       console.log("Setting recursive search result : ", recursiveSearchResult);
       setFixes(recursiveSearchResult);
       setRefPosition([0, objToReduce.fix.length - 1]);
-      
+
       if (objToReduce.links) {
-        if (objToReduce.links.length > 0) {
+        if (objToReduce.links.length > 0 && objToReduce.links[0] !== null) {
           setFileList(objToReduce.links);
         }
       }
-      
+
       // #2 todo - filter for category
       if (message.user_defined.search) {
         console.log(message.user_defined.search);
         setSearchTerm(message.user_defined.search);
-      } 
+      }
     }
   }, [fixes, message]);
 
@@ -131,7 +134,7 @@ const Fixes = ({ instance, message }) => {
         {props.children}
       </a>
     );
-  }
+  };
 
   return (
     <>
@@ -160,7 +163,7 @@ const Fixes = ({ instance, message }) => {
                           onClick={() => changePosition(`${index}`)}
                         >
                           <Markdown
-                            components={{ a: LinkRenderer}}
+                            components={{ a: LinkRenderer }}
                             rehypePlugins={[rehypeRaw]}
                             children={fix.item}
                           />
@@ -222,26 +225,51 @@ const Fixes = ({ instance, message }) => {
                       )}
                     </>
                   ) : (
-                    <a
-                      // this attribute sets the filename
-                      download={fileTitle}
-                      // link to the download URL
-                      href={fileName}
-                    >
-                      <button className="fixes-button">Download</button>
-                    </a>
+                    <>
+                      <div className="fixes-buttons-container">
+                        <a
+                          // this attribute sets the filename
+                          download={fileTitle}
+                          // link to the download URL
+                          href={fileName}
+                        >
+                          <button
+                            className="fixes-button"
+                            style={{ "margin-right": "7px" }}
+                          >
+                            Download
+                          </button>
+                        </a>
+                        <button
+                          className="fixes-button"
+                          onClick={() =>
+                            navigator.clipboard.writeText(
+                              fixes[0].item.substring(
+                                3,
+                                fixes[0].item.length - 3
+                              )
+                            )
+                          }
+                        >
+                          Copy
+                        </button>
+                      </div>
+                    </>
                   )}
                 </>
               )}
             </div>
           </div>
+          {fileList.length > 0 && (
+            <>
+              <div>Click the link(s) below to read the wiki(s): </div>
+              {/* <br /> */}
+            </>
+          )}
           {fileList.length > 0 &&
             fileList.map((indLink) => {
-              return (
-                <div>
-                  <indLink />
-                </div>
-              );
+              console.log(indLink);
+              return <div dangerouslySetInnerHTML={{ __html: indLink }} />;
             })}
           <div className="end" ref={messagesEndRef} />
         </>
