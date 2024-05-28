@@ -128,7 +128,7 @@ app.get("/outage", (req, res) => {
       readableEndDate += ` ${date2.getDate()}, ${date2.getFullYear()}`;
       return res
         .status(200)
-        .json({ outage: true, start: readableStartDate, end: readableEndDate });
+        .json({ outage: false, start: readableStartDate, end: readableEndDate });
     } else if (typeMessage === "jfrog") {
       let date1 = new Date(maintenence[typeMessage].start);
       let date2 = new Date(maintenence[typeMessage].end);
