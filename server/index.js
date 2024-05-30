@@ -133,13 +133,11 @@ app.get("/outage", (req, res) => {
         .status(200)
         .json({ outage: true, start: readableStartDate, end: readableEndDate });
     } else if (date1.getTime() > todaysDate && todaysDate < date2.getTime()) {
-      return res
-        .status(200)
-        .json({
-          outage: false,
-          start: readableStartDate,
-          end: readableEndDate,
-        });
+      return res.status(200).json({
+        outage: false,
+        start: readableStartDate,
+        end: readableEndDate,
+      });
     } else {
       return res.status(200).json({ outage: false, start: null, end: null });
     }
@@ -197,8 +195,10 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
     }.${
       emailMessage.subtitle === "Accessing a UPS Developed artifact"
         ? "  They are requesting access to a UPS Developed artifact."
-        : emailMessage.subtitle
-        ? "  They read through the wiki's steps and are still unable to fix their problem."
+        : emailMessage.subtitle !== "Something Else"
+        ? emailMessage.subtitle
+          ? "  They read through the wiki's steps and are still unable to fix their problem."
+          : "  They did not read through the wiki's steps as they are asking a question that it doesn't have the answer to currently."
         : "  They did not read through the wiki's steps as they are asking a question that it doesn't have the answer to currently."
     }  Here is the developer's issue:
 
