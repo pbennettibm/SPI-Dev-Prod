@@ -2,22 +2,23 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Node Version
+
+This was tested on Node v14.17.0.  Other versions may work as well, but were not tested.
+
+## Refer to the `.env-example` file in the root of this repository for the correct environment variables needed to run this app
+
 ## Available Scripts
 
-In the project directory, you can run:
+In the project root, you can run:
 
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open [http://localhost:3000/protected](http://localhost:3000/protected) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
@@ -29,42 +30,30 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### `npm run deploy`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Runs a Node server serving up the static `build` directory.  This can be used for full end to end testing.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+If not using AppID, please remove, or comment out, all references in `/server/index.js`.  They will be tagged with `// AppId` above and `//` below the code blocks.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Open [http://localhost:3000/protected](http://localhost:3000/protected) to view it in your browser.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Docker Deployment
 
-## Learn More
+Use `docker` or `podman` to create a local image.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`<docker/podman> build -t <tagname> .`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The port the server uses will be `8443`.  You can then test by using the `run` command, and opening up the port locally.
 
-### Code Splitting
+`<docker/podman> run -p 8443:8443 <tagname> `
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Open [http://localhost:8443/protected](http://localhost:8443/protected) to view it in your browser.
 
-### Analyzing the Bundle Size
+Then tag and push this image to an cloud image repository for deployment.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+`<docker/podman> tag <tagname> <imagerepository/tagname>`
 
-### Making a Progressive Web App
+`<docker/podman> push <imagerepository/tagname>`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Note: Ensure you have the correct credentials to push to an cloud image repository.

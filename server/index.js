@@ -8,7 +8,11 @@ const multer = require("multer");
 const fs = require("fs");
 const session = require("express-session");
 const passport = require("passport");
+
+// AppID
 const appID = require("ibmcloud-appid");
+//
+
 var maintenence = require("./maintenence/alerts.json");
 dotenv.config();
 
@@ -31,9 +35,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// AppID
 const WebAppStrategy = appID.WebAppStrategy;
-
 const CALLBACK_URL = "/ibm/cloud/appid/callback";
+//
+
 
 app.use(express.static(path.join(__dirname, "../landing")));
 app.use(morgan("combined"));
@@ -44,6 +50,8 @@ app.use(express.urlencoded({ extended: true }));
 // Must be configured with proper session storage for production
 // environments. See https://github.com/expressjs/session for
 // additional documentation
+
+// AppID
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -52,13 +60,13 @@ app.use(
     proxy: true,
   })
 );
-
 // Configure express application to use passportjs
 app.use(passport.initialize());
 app.use(passport.session());
+//
 
+// AppID
 let webAppStrategy;
-
 if (process.env.NODE_ENV !== "staging") {
   webAppStrategy = new WebAppStrategy({
     clientId: process.env.CLIENT_ID,
@@ -78,15 +86,12 @@ if (process.env.NODE_ENV !== "staging") {
     redirectUri: process.env.REDIRECT_URI,
   });
 }
-
 passport.use(webAppStrategy);
-
 // Configure passportjs with user serialization/deserialization. This is required
 // for authenticated session persistence accross HTTP requests. See passportjs docs
 // for additional information http://passportjs.org/docs
 passport.serializeUser((user, cb) => cb(null, user));
 passport.deserializeUser((obj, cb) => cb(null, obj));
-
 // Callback to finish the authorization process. Will retrieve access and identity tokens/
 // from AppID service and redirect to either (in below order)
 // 1. the original URL of the request that triggered authentication, as persisted in HTTP session under WebAppStrategy.ORIGINAL_URL key.
@@ -99,6 +104,7 @@ app.get(
     session: false,
   })
 );
+//
 
 app.get("/healthcheck", (req, res) => {
   res.send("Healthy!");
@@ -142,29 +148,27 @@ app.get("/outage", (req, res) => {
       return res.status(200).json({ outage: false, start: null, end: null });
     }
 
-    // return res.status(200).json({ outage: maintenence[typeMessage] });
   } else {
     return res.status(500).json({ error: "no parameter given" });
   }
 });
 
+// AppID
 // Protect everything under /protected
 app.use(
   "/protected",
   passport.authenticate(WebAppStrategy.STRATEGY_NAME, { session: false })
 );
-
 console.log(process.env.EMAIL_HOST);
-
 app.get("/protected", (req, res) => {
   app.use(express.static(path.join(__dirname, "../build")));
   res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
-
 app.use(
   "/email",
   passport.authenticate(WebAppStrategy.STRATEGY_NAME, { session: false })
 );
+//
 
 app.post("/email", upload.single("fileUpload"), (req, res) => {
   const emailMessage = req.body;
@@ -212,8 +216,6 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
       `;
     }
 
-    // text += `Can you please help?`;
-
     const options = {
       from: req.user.email,
       to: "brian.carroll25@ethereal.email",
@@ -237,7 +239,6 @@ app.post("/email", upload.single("fileUpload"), (req, res) => {
         console.log(error);
         return res.status(500).json({ error: error });
       } else {
-        // console.log(info);
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
         return res
           .status(200)
