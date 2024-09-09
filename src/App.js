@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import { withWebChat } from "@ibm-watson/assistant-web-chat-react";
-import CustomResponsePortalsContainer from "./CustomResponsePortalsContainer";
-import "./App.css";
+import React, { useEffect, useRef, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { withWebChat } from '@ibm-watson/assistant-web-chat-react';
+import CustomResponsePortalsContainer from './CustomResponsePortalsContainer';
+import './App.css';
 
 const App = ({ createWebChatInstance }) => {
   const [instance, setInstance] = useState(null);
@@ -30,8 +30,8 @@ const App = ({ createWebChatInstance }) => {
           // });
 
           //  Restart the conversation on startup
-          console.log("Restarting watson assistand conversations.");
-          instance.restartConversation();
+          // console.log("Restarting watson assistand conversations.");
+          // instance.restartConversation();
 
           setInstance(instance);
           instance.render().then(() => {
@@ -42,28 +42,28 @@ const App = ({ createWebChatInstance }) => {
         },
       };
 
-      const t = document.createElement("script");
+      const t = document.createElement('script');
       t.src =
-        "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" +
-        (window.watsonAssistantChatOptions.clientVersion || "latest") +
-        "/WatsonAssistantChatEntry.js";
+        'https://web-chat.global.assistant.watson.appdomain.cloud/versions/' +
+        (window.watsonAssistantChatOptions.clientVersion || 'latest') +
+        '/WatsonAssistantChatEntry.js';
       document.head.appendChild(t);
     }
     // eslint-disable-next-line
   }, []);
 
   return (
-    <div className="app">
+    <div className='app'>
       <img
-        src={"https://i.postimg.cc/nM8N4hnV/topbar-copy.png"}
-        alt="Topbar"
-        style={{ width: "100vw" }}
-        className="top-bar"
+        src={'https://i.postimg.cc/nM8N4hnV/topbar-copy.png'}
+        alt='Topbar'
+        style={{ width: '100vw' }}
+        className='top-bar'
       />
       <img
-        src={"https://i.postimg.cc/mZcDypTK/leftbar-copy.png"}
-        alt="Leftbar"
-        className="left-bar"
+        src={'https://i.postimg.cc/mZcDypTK/leftbar-copy.png'}
+        alt='Leftbar'
+        className='left-bar'
       />
       {instance && <CustomResponsePortalsContainer instance={instance} />}
     </div>

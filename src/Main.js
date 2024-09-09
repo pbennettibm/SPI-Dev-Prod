@@ -1,14 +1,13 @@
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import App from "./App";
+import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import App from './App';
 
 function Main() {
-
   return (
     <>
-      <div className="app">
+      <div className='app'>
         <Routes>
-          <Route path="/protected" element={<App />} />
+          <Route path='/' element={<App />} />
         </Routes>
       </div>
     </>
